@@ -95,7 +95,7 @@ void resetTest(void)
 int main(void)
 {
   suite_setup();
-  UnityBegin("test_mcp2551_driver.c");
+  UnityBegin("test_mcp2515_driver.c");
   RUN_TEST(test_mcp2551_driver_NeedToImplement, 13);
 
   CMock_Guts_MemFreeFinal();

@@ -1,7 +1,7 @@
 ---
 :source:
   :path: test
-  :file: test_mcp2551_driver.c
+  :file: test_mcp2515_driver.c
 :successes: []
 :failures: []
 :ignores:
@@ -14,4 +14,4 @@
   :failed: 0
   :ignored: 1
 :stdout: []
-:time: 0.06946065600004658
+:time: 0.04351814199981163

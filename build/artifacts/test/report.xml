@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<TestRun>
+	<FailedTests/>
+	<SuccessfulTests/>
+	<IgnoredTests>
+		<Test id="1">
+			<Name>test/test_mcp2515_driver.c::test_mcp2551_driver_NeedToImplement</Name>
+		</Test>
+	</IgnoredTests>
+	<Statistics>
+		<Tests>1</Tests>
+		<Ignores>1</Ignores>
+		<FailuresTotal>0</FailuresTotal>
+		<Errors>0</Errors>
+		<Failures>0</Failures>
+	</Statistics>
+</TestRun>

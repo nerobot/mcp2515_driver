@@ -1,0 +1,15 @@
+Language:                           Cpp
+
+IndentWidth:                        4
+ColumnLimit:                        80
+AlignConsecutiveAssignments:        true
+AlignTrailingComments:              true
+AllowShortBlocksOnASingleLine:      false
+BreakBeforeBraces:                  Custom
+BraceWrapping:
+    AfterControlStatement:          true
+    AfterFunction:                  true
+    BeforeElse:                     true
+AllowShortFunctionsOnASingleLine:   false
+PointerAlignment:                   Middle
+SortIncludes:                       false
