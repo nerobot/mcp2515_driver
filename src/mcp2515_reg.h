@@ -2,5 +2,7 @@
 #define _MCP2515_REG_H
 
 #define MCP_RESET 0b11000000
+#define MCP_READ 0b00000011
+#define MCP_CANSTAT 0x0E
 
 #endif // _MCP2551_REG_H
