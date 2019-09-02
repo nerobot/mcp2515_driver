@@ -1,5 +1,0 @@
----
-- unity.h
-- mcp2551_driver.h
-- mock_spi_driver.h
-- build/temp/_test_mcp2551_driver.c

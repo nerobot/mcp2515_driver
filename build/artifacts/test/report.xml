@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <TestRun>
 	<FailedTests/>
-	<SuccessfulTests/>
-	<IgnoredTests>
+	<SuccessfulTests>
 		<Test id="1">
-			<Name>test/test_mcp2515_driver.c::test_mcp2551_driver_NeedToImplement</Name>
+			<Name>test/test_mcp2515_driver.c::test_reset_will_send_reset_command</Name>
 		</Test>
-	</IgnoredTests>
+	</SuccessfulTests>
+	<IgnoredTests/>
 	<Statistics>
 		<Tests>1</Tests>
-		<Ignores>1</Ignores>
+		<Ignores>0</Ignores>
 		<FailuresTotal>0</FailuresTotal>
 		<Errors>0</Errors>
 		<Failures>0</Failures>
