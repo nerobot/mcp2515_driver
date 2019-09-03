@@ -57,7 +57,7 @@ void mcp2515_init(void)
 {
     cs_high();
     mcp2515_driver_reset();
-    mcp2515_driver_set_baudrate(CAN_5KBPS, MCP_16MHZ);
+    mcp2515_driver_set_baudrate(CAN_1000KBPS, MCP_16MHZ);
 
     // Set into normal mode
     // TODO: create seperate function for this
@@ -108,6 +108,12 @@ bool mcp2515_driver_set_baudrate(uint8_t can_speed, uint8_t can_clock)
             cfg1 = MCP_16MHz_5kBPS_CFG1;
             cfg2 = MCP_16MHz_5kBPS_CFG2;
             cfg3 = MCP_16MHz_5kBPS_CFG3;
+            break;
+
+        case CAN_1000KBPS:
+            cfg1 = MCP_16MHz_1000kBPS_CFG1;
+            cfg2 = MCP_16MHz_1000kBPS_CFG2;
+            cfg3 = MCP_16MHz_1000kBPS_CFG3;
             break;
 
         default:
