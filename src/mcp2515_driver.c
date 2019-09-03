@@ -141,7 +141,12 @@ void mcp2515_driver_init_can_buffers(void)
 bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
                                     uint8_t buf_size, uint8_t * tx_buf)
 {
-    uint8_t txb0ctrl = 0;
+    uint8_t txb0ctrl          = 0;
+    bool tx_success           = false;
+    bool tx_error             = false;
+    bool tx_arbitration_error = false;
+    bool no_errors            = false;
+
     do
     {
         txb0ctrl = read_register(MCP_TXB0CTRL);
@@ -167,6 +172,25 @@ bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
     // Send tx
     set_register(MCP_TXB0CTRL, 0b00001000);
 
-    // Checking if the
-    read_register(MCP_TXB0CTRL);
+    // Checking if tx was successful
+    do
+    {
+        txb0ctrl             = read_register(MCP_TXB0CTRL);
+        tx_success           = !check_bit(txb0ctrl, 3);
+        tx_error             = check_bit(txb0ctrl, 4);
+        tx_arbitration_error = check_bit(txb0ctrl, 5);
+
+        // no_errors = tx_error | tx_arbitration_error;
+    } while (!tx_success & !tx_error & !tx_arbitration_error);
+
+    if ((true == tx_arbitration_error))
+    {
+        return false;
+    }
+    if ((true == tx_error))
+    {
+        return false;
+    }
+
+    return true;
 }
