@@ -32,16 +32,20 @@ static bool is_can_speed_within_bounds(uint8_t value)
 
 static void set_register(uint8_t address, uint8_t value)
 {
+    cs_low();
     spi_driver_exchange(MCP_WRITE);
     spi_driver_exchange(address);
     spi_driver_exchange(value);
+    cs_high();
 }
 
 static uint8_t read_register(uint8_t address)
 {
+    cs_low();
     spi_driver_exchange(MCP_READ);
     spi_driver_exchange(address);
     return spi_driver_exchange(0);
+    cs_high();
 }
 
 static inline bool check_bit(uint8_t value, uint8_t bit)
