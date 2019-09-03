@@ -56,6 +56,12 @@ static inline bool check_bit(uint8_t value, uint8_t bit)
 void mcp2515_init(void)
 {
     cs_high();
+    mcp2515_driver_reset();
+    mcp2515_driver_set_baudrate(CAN_5KBPS, MCP_16MHZ);
+
+    // Set into normal mode
+    // TODO: create seperate function for this
+    set_register(0x0F, 0x00);
 }
 
 bool mcp2515_driver_reset(void)
