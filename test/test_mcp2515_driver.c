@@ -19,7 +19,7 @@ static bool reset(uint8_t param[])
     spi_driver_exchange_ExpectAndReturn(MCP_CANSTAT, param[2]);
     spi_driver_exchange_ExpectAndReturn(0, param[3]);
 
-    return mcp2515_driver_reset();
+    // return mcp2515_driver_reset();
 }
 
 static void set_register(uint8_t address, uint8_t value)
@@ -51,6 +51,14 @@ static void send_buffer(void)
 
 void setUp(void)
 {
+    reset(reset_param);
+
+    set_register(MCP_CNF1, MCP_16MHz_5kBPS_CFG1);
+    set_register(MCP_CNF2, MCP_16MHz_5kBPS_CFG2);
+    set_register(MCP_CNF3, MCP_16MHz_5kBPS_CFG3);
+
+    set_register(0x0F, 0x00);
+
     mcp2515_init();
 }
 
@@ -58,21 +66,28 @@ void tearDown(void)
 {
 }
 
+void test_init(void)
+{
+}
+
 void test_reset_all_ok(void)
 {
     reset(reset_param);
+    mcp2515_driver_reset();
 }
 
 void test_reset_all_ok_return_true(void)
 {
-    bool success = reset(reset_param);
+    reset(reset_param);
+    bool success = mcp2515_driver_reset();
     TEST_ASSERT(success);
 }
 
 void test_after_reset_device_not_in_config_mode_return_false(void)
 {
     reset_param[3] = 0;
-    bool success   = reset(reset_param);
+    reset(reset_param);
+    bool success = mcp2515_driver_reset();
     TEST_ASSERT_FALSE(success);
 }
 
