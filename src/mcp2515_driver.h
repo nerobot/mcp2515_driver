@@ -39,7 +39,7 @@ bool mcp2515_driver_set_baudrate(uint8_t can_speed, uint8_t can_clock);
  */
 void mcp2515_driver_init_can_buffers(void);
 
-bool mcp2515_driver_send_msg_buffer(uint8_t can_id, uint8_t ext,
+bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
                                     uint8_t buf_size, uint8_t * tx_buf);
 
 #endif // _MCP2551_DRIVER_H

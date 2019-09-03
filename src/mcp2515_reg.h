@@ -38,6 +38,19 @@
 
 #define MCP_TXB0CTRL 0x30
 #define MCP_TXB0SIDH 0x31
+#define MCP_TXB0SIDL 0x32
+#define MCP_TXB0EID8 0x33
+#define MCP_TXB0EID0 0x34
+#define MCP_TXB0DLC 0x35
+#define MCP_TXB0D0 0x36
+#define MCP_TXB0D1 0x37
+#define MCP_TXB0D2 0x38
+#define MCP_TXB0D3 0x39
+#define MCP_TXB0D4 0x3A
+#define MCP_TXB0D5 0x3B
+#define MCP_TXB0D6 0x3C
+#define MCP_TXB0D7 0x3D
+
 #define MCP_TXB1CTRL 0x40
 #define MCP_TXB1SIDH 0x41
 #define MCP_TXB2CTRL 0x50

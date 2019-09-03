@@ -8,9 +8,9 @@
 uint8_t reset_param[4] = {0, 0, 0, 0b10000000};
 uint8_t can_clock      = MCP_16MHZ;
 uint8_t can_speed      = CAN_5KBPS;
-uint8_t can_id         = 0x70;
+uint16_t can_id        = 0x0070;
 uint8_t buf_size       = 8;
-uint8_t tx_buf[8]      = {7, 5, 3, 1, 9, 0, 2, 4};
+uint8_t tx_buf[8]      = {1, 2, 3, 4, 5, 6, 7, 8};
 
 static bool reset(uint8_t param[])
 {
@@ -31,7 +31,7 @@ static void set_register(uint8_t address, uint8_t value)
 
 static void read_register(uint8_t address, uint8_t expected)
 {
-    spi_driver_exchange_ExpectAndReturn(MCP_RESET, 0);
+    spi_driver_exchange_ExpectAndReturn(MCP_READ, 0);
     spi_driver_exchange_ExpectAndReturn(address, 0);
     spi_driver_exchange_ExpectAndReturn(0, expected);
 }
@@ -112,5 +112,64 @@ void test_init_can_buffers_will_zero_to_all_txctrl_regs(void)
 void test_tx1_si_all_ok(void)
 {
     read_register(MCP_TXB0CTRL, 0x00);
+
+    // Set up tx control registers
+    set_register(MCP_TXB0SIDH, (uint8_t)(can_id >> 3));
+    set_register(MCP_TXB0SIDL, (0b11100000 & (uint8_t)(can_id << 5)));
+    set_register(MCP_TXB0EID8, 0);
+    set_register(MCP_TXB0EID0, 0);
+    set_register(MCP_TXB0DLC, buf_size);
+
+    // Fill up buffers
+    set_register(MCP_TXB0D0, tx_buf[0]);
+    set_register(MCP_TXB0D1, tx_buf[1]);
+    set_register(MCP_TXB0D2, tx_buf[2]);
+    set_register(MCP_TXB0D3, tx_buf[3]);
+    set_register(MCP_TXB0D4, tx_buf[4]);
+    set_register(MCP_TXB0D5, tx_buf[5]);
+    set_register(MCP_TXB0D6, tx_buf[6]);
+    set_register(MCP_TXB0D7, tx_buf[7]);
+
+    // Send tx
+    set_register(MCP_TXB0CTRL, 0b00001000);
+
+    // Checking if the
+    read_register(MCP_TXB0CTRL, 0x00);
+
+    mcp2515_driver_send_msg_buffer(can_id, 0, buf_size, tx_buf);
+}
+
+void test_tx1_si_wait_until_buffer_empty_before_trying_to_setup_tx(void)
+{
+    uint8_t i = 0;
+    for (i = 0; i < 88; i++)
+    {
+        read_register(MCP_TXB0CTRL, 0b00001000);
+    }
+    read_register(MCP_TXB0CTRL, 0x00);
+
+    // Set up tx control registers
+    set_register(MCP_TXB0SIDH, (uint8_t)(can_id >> 3));
+    set_register(MCP_TXB0SIDL, (0b11100000 & (uint8_t)(can_id << 5)));
+    set_register(MCP_TXB0EID8, 0);
+    set_register(MCP_TXB0EID0, 0);
+    set_register(MCP_TXB0DLC, buf_size);
+
+    // Fill up buffers
+    set_register(MCP_TXB0D0, tx_buf[0]);
+    set_register(MCP_TXB0D1, tx_buf[1]);
+    set_register(MCP_TXB0D2, tx_buf[2]);
+    set_register(MCP_TXB0D3, tx_buf[3]);
+    set_register(MCP_TXB0D4, tx_buf[4]);
+    set_register(MCP_TXB0D5, tx_buf[5]);
+    set_register(MCP_TXB0D6, tx_buf[6]);
+    set_register(MCP_TXB0D7, tx_buf[7]);
+
+    // Send tx
+    set_register(MCP_TXB0CTRL, 0b00001000);
+
+    // Checking if the
+    read_register(MCP_TXB0CTRL, 0x00);
+
     mcp2515_driver_send_msg_buffer(can_id, 0, buf_size, tx_buf);
 }

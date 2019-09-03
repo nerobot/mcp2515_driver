@@ -37,6 +37,18 @@ static void set_register(uint8_t address, uint8_t value)
     spi_driver_exchange(value);
 }
 
+static uint8_t read_register(uint8_t address)
+{
+    spi_driver_exchange(MCP_READ);
+    spi_driver_exchange(address);
+    return spi_driver_exchange(0);
+}
+
+static inline bool check_bit(uint8_t value, uint8_t bit)
+{
+    return (value & (1 << bit));
+}
+
 void mcp2515_init(void)
 {
     cs_high();
@@ -126,7 +138,35 @@ void mcp2515_driver_init_can_buffers(void)
     }
 }
 
-bool mcp2515_driver_send_msg_buffer(uint8_t can_id, uint8_t ext,
+bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
                                     uint8_t buf_size, uint8_t * tx_buf)
 {
+    uint8_t txb0ctrl = 0;
+    do
+    {
+        txb0ctrl = read_register(MCP_TXB0CTRL);
+    } while (true == check_bit(txb0ctrl, 3));
+
+    // Set up tx control registers
+    set_register(MCP_TXB0SIDH, (uint8_t)(can_id >> 3));
+    set_register(MCP_TXB0SIDL, (0b11100000 & (uint8_t)(can_id << 5)));
+    set_register(MCP_TXB0EID8, 0);
+    set_register(MCP_TXB0EID0, 0);
+    set_register(MCP_TXB0DLC, buf_size);
+
+    // Fill up buffers
+    set_register(MCP_TXB0D0, tx_buf[0]);
+    set_register(MCP_TXB0D1, tx_buf[1]);
+    set_register(MCP_TXB0D2, tx_buf[2]);
+    set_register(MCP_TXB0D3, tx_buf[3]);
+    set_register(MCP_TXB0D4, tx_buf[4]);
+    set_register(MCP_TXB0D5, tx_buf[5]);
+    set_register(MCP_TXB0D6, tx_buf[6]);
+    set_register(MCP_TXB0D7, tx_buf[7]);
+
+    // Send tx
+    set_register(MCP_TXB0CTRL, 0b00001000);
+
+    // Checking if the
+    read_register(MCP_TXB0CTRL);
 }
