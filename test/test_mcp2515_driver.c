@@ -63,13 +63,6 @@ void test_after_reset_device_not_in_config_mode_return_false(void)
     TEST_ASSERT_FALSE(success);
 }
 
-void test_set_baudrate_all_ok(void)
-{
-    bool success = false;
-    success      = mcp2515_driver_set_baudrate(can_speed, can_clock);
-    TEST_ASSERT(success);
-}
-
 void test_set_baudrate_can_clock_out_off_bounds_return_false(void)
 {
     bool success = true;
