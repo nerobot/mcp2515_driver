@@ -40,7 +40,7 @@ bool mcp2515_driver_set_baudrate(uint8_t can_speed, uint8_t can_clock);
 void mcp2515_driver_init_can_buffers(void);
 
 /**
- * @brief
+ * @brief               Sends the can message
  *
  * @param can_id
  * @param ext
@@ -50,6 +50,7 @@ void mcp2515_driver_init_can_buffers(void);
  * @return false
  *
  * @warning             No check done on size of buf
+ * @note                Currently only uses tx_buf 1
  */
 bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
                                     uint8_t buf_size, uint8_t * tx_buf);
