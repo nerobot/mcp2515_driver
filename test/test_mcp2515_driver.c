@@ -7,7 +7,7 @@
 
 uint8_t reset_param[4] = {0, 0, 0, 0b10000000};
 uint8_t can_clock      = MCP_16MHZ;
-uint8_t can_speed      = CAN_5KBPS;
+uint8_t can_speed      = CAN_1000KBPS;
 uint16_t can_id        = 0x0070;
 uint8_t buf_size       = 8;
 uint8_t tx_buf[8]      = {1, 2, 3, 4, 5, 6, 7, 8};
@@ -53,9 +53,9 @@ void setUp(void)
 {
     reset(reset_param);
 
-    set_register(MCP_CNF1, MCP_16MHz_5kBPS_CFG1);
-    set_register(MCP_CNF2, MCP_16MHz_5kBPS_CFG2);
-    set_register(MCP_CNF3, MCP_16MHz_5kBPS_CFG3);
+    set_register(MCP_CNF1, MCP_16MHz_1000kBPS_CFG1);
+    set_register(MCP_CNF2, MCP_16MHz_1000kBPS_CFG2);
+    set_register(MCP_CNF3, MCP_16MHz_1000kBPS_CFG3);
 
     set_register(0x0F, 0x00);
 
