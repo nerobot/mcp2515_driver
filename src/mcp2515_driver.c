@@ -5,11 +5,13 @@
 static inline void cs_low(void)
 {
     // TODO: implement
+    spi_driver_cs_low();
 }
 
 static inline void cs_high(void)
 {
     // TODO: implement
+    spi_driver_cs_high();
 }
 
 static bool is_can_clock_within_bounds(uint8_t value)
@@ -44,8 +46,9 @@ static uint8_t read_register(uint8_t address)
     cs_low();
     spi_driver_exchange(MCP_READ);
     spi_driver_exchange(address);
-    return spi_driver_exchange(0);
+    uint8_t value = spi_driver_exchange(0);
     cs_high();
+    return value;
 }
 
 static inline bool check_bit(uint8_t value, uint8_t bit)

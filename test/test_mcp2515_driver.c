@@ -14,26 +14,35 @@ uint8_t tx_buf[8]      = {1, 2, 3, 4, 5, 6, 7, 8};
 
 static bool reset(uint8_t param[])
 {
+    spi_driver_cs_low_Expect();
     spi_driver_exchange_ExpectAndReturn(MCP_RESET, param[0]);
+    spi_driver_cs_high_Expect();
+
+    spi_driver_cs_low_Expect();
     spi_driver_exchange_ExpectAndReturn(MCP_READ, param[1]);
     spi_driver_exchange_ExpectAndReturn(MCP_CANSTAT, param[2]);
     spi_driver_exchange_ExpectAndReturn(0, param[3]);
+    spi_driver_cs_high_Expect();
 
     // return mcp2515_driver_reset();
 }
 
 static void set_register(uint8_t address, uint8_t value)
 {
+    spi_driver_cs_low_Expect();
     spi_driver_exchange_ExpectAndReturn(MCP_WRITE, 0);
     spi_driver_exchange_ExpectAndReturn(address, 0);
     spi_driver_exchange_ExpectAndReturn(value, 0);
+    spi_driver_cs_high_Expect();
 }
 
 static void read_register(uint8_t address, uint8_t expected)
 {
+    spi_driver_cs_low_Expect();
     spi_driver_exchange_ExpectAndReturn(MCP_READ, 0);
     spi_driver_exchange_ExpectAndReturn(address, 0);
     spi_driver_exchange_ExpectAndReturn(0, expected);
+    spi_driver_cs_high_Expect();
 }
 
 static void send_buffer(void)
@@ -51,6 +60,7 @@ static void send_buffer(void)
 
 void setUp(void)
 {
+    spi_driver_cs_high_Expect();
     reset(reset_param);
 
     set_register(MCP_CNF1, MCP_16MHz_1000kBPS_CFG1);
