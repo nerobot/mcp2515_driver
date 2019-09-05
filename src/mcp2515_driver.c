@@ -153,6 +153,7 @@ void mcp2515_driver_init_can_buffers(void)
     }
 }
 
+// TODO: Add tests for boundary conditions
 bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
                                     uint8_t buf_size, uint8_t * tx_buf)
 {
@@ -175,6 +176,7 @@ bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
     set_register(MCP_TXB0DLC, buf_size);
 
     // Fill up buffers
+    // TODO: Emprove efficiency
     set_register(MCP_TXB0D0, tx_buf[0]);
     set_register(MCP_TXB0D1, tx_buf[1]);
     set_register(MCP_TXB0D2, tx_buf[2]);
@@ -198,6 +200,7 @@ bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
         // no_errors = tx_error | tx_arbitration_error;
     } while (!tx_success & !tx_error & !tx_arbitration_error);
 
+    // TODO: Implement a more useful return value
     if ((true == tx_arbitration_error))
     {
         return false;
