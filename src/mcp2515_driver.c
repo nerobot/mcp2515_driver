@@ -1,16 +1,12 @@
 #include "mcp2515_driver.h"
 
-// TODO: Check if the following two functions would be better being called from
-// spi_driver
 static inline void cs_low(void)
 {
-    // TODO: implement
     spi_driver_cs_low();
 }
 
 static inline void cs_high(void)
 {
-    // TODO: implement
     spi_driver_cs_high();
 }
 
