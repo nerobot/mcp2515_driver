@@ -15,5 +15,6 @@
 void spi_driver_init(void);
 uint8_t spi_driver_exchange(uint8_t data);
 void spi_driver_cs_low(void);
+void spi_driver_cs_high(void);
 
 #endif // _SPI_DRIVER_H
