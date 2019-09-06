@@ -267,3 +267,15 @@ void test_tx1_si_delay_in_tx_and_message_error(void)
     bool success = mcp2515_driver_send_msg_buffer(can_id, 0, buf_size, tx_buf);
     TEST_ASSERT_FALSE(success);
 }
+
+void test_tx_send_message_size_is_zero(void)
+{
+    bool success = mcp2515_driver_send_msg_buffer(can_id, 0, 0, tx_buf);
+    TEST_ASSERT_FALSE(success);
+}
+
+void test_tx_send_message_size_is_greater_than_8(void)
+{
+    bool success = mcp2515_driver_send_msg_buffer(can_id, 0, 9, tx_buf);
+    TEST_ASSERT_FALSE(success);
+}

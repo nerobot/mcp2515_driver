@@ -157,7 +157,7 @@ void mcp2515_driver_init_can_buffers(void)
     }
 }
 
-// TODO: Add tests for boundary conditions
+// TODO: Add ability to send ext message
 bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
                                     uint8_t buf_size, uint8_t * tx_buf)
 {
@@ -166,6 +166,17 @@ bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
     bool tx_error             = false;
     bool tx_arbitration_error = false;
     bool no_errors            = false;
+
+    if (0 == buf_size)
+    {
+        return false;
+    }
+
+    // TODO: Remove magic number 8
+    if (buf_size > 8)
+    {
+        return false;
+    }
 
     do
     {
