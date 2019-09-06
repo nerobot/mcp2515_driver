@@ -1,3 +1,12 @@
+/**
+ * @file        mcp2515_reg.h
+ * @author      Steven Daglish
+ * @brief
+ * @version     0.1
+ * @date        02 September 2019
+ *
+ */
+
 #ifndef _MCP2515_REG_H
 #define _MCP2515_REG_H
 
