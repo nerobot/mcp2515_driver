@@ -52,6 +52,7 @@ static inline bool check_bit(uint8_t value, uint8_t bit)
     return (value & (1 << bit));
 }
 
+// TODO: Do I want to add SPI init here?
 void mcp2515_init(void)
 {
     cs_high();
@@ -70,6 +71,8 @@ bool mcp2515_driver_reset(void)
     spi_driver_exchange(MCP_RESET);
     cs_high();
 
+    // TODO: The calls below should be inside a function call to remove the
+    // repeated code
     cs_low();
     spi_driver_exchange(MCP_READ);
     spi_driver_exchange(MCP_CANSTAT);
@@ -84,6 +87,7 @@ bool mcp2515_driver_reset(void)
 }
 
 // TODO: Implement all combinations of speeds
+// TODO: Double check the calculations for the speed macros
 bool mcp2515_driver_set_baudrate(uint8_t can_speed, uint8_t can_clock)
 {
     if (false == is_can_clock_within_bounds(can_clock))
@@ -169,6 +173,7 @@ bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
     } while (true == check_bit(txb0ctrl, 3));
 
     // Set up tx control registers
+    // TODO: Check if the following can be improved
     set_register(MCP_TXB0SIDH, (uint8_t)(can_id >> 3));
     set_register(MCP_TXB0SIDL, (0b11100000 & (uint8_t)(can_id << 5)));
     set_register(MCP_TXB0EID8, 0);
@@ -199,6 +204,7 @@ bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
 
         // no_errors = tx_error | tx_arbitration_error;
     } while (!tx_success & !tx_error & !tx_arbitration_error);
+    // TODO: Improve the while logic above at isnt great to read
 
     // TODO: Implement a more useful return value
     if ((true == tx_arbitration_error))
