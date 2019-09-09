@@ -52,6 +52,11 @@ static inline bool check_bit(uint8_t value, uint8_t bit)
     return (value & (1 << bit));
 }
 
+static inline uint8_t clear_bit(uint8_t value, uint8_t bit)
+{
+    return (value & ~(1 << bit));
+}
+
 static void init_rx_buffers(void)
 {
     // all filters off, rollover disabled
@@ -64,8 +69,9 @@ static void init_rx_buffers(void)
 void mcp2515_init(void)
 {
     cs_high();
+    // TODO Do some checking if reset was successful
     mcp2515_driver_reset();
-    mcp2515_driver_set_baudrate(CAN_1000KBPS, MCP_16MHZ);
+    mcp2515_driver_set_baudrate(CAN_5KBPS, MCP_16MHZ);
 
     // Set up rx buffers
     init_rx_buffers();
@@ -274,15 +280,29 @@ void mcp2515_driver_read_can_message(uint8_t * id, uint8_t * len,
 
     // Message length
     buf[5] = spi_driver_exchange(0);
-    // *len    = buf[5];
+    *len   = buf[5];
 
     // Reading the data
+    // TODO Only read as many bytes as is needed
     uint8_t * p_read_buf = read_buf;
     for (i = 0; i < 8; i++)
     {
-        // *p_read_buf++ = spi_driver_exchange(0);
-        spi_driver_exchange(0);
+        *p_read_buf++ = spi_driver_exchange(0);
     }
 
     cs_high();
+}
+
+void mcp2515_driver_clear_rx0if(void)
+{
+    // TODO Remove duplicated code below
+    cs_low();
+    spi_driver_exchange(MCP_READ_STATUS);
+    // spi_driver_exchange();
+    uint8_t status = spi_driver_exchange(0);
+    cs_high();
+
+    status = clear_bit(status, 0);
+
+    set_register(MCP_CANINTF, status);
 }

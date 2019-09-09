@@ -61,4 +61,6 @@ bool mcp2515_rx0_is_full(void);
 void mcp2515_driver_read_can_message(uint8_t * id, uint8_t * len,
                                      uint8_t * read_buf);
 
+void mcp2515_driver_clear_rx0if(void);
+
 #endif // _MCP2551_DRIVER_H

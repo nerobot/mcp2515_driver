@@ -358,3 +358,56 @@ void test_rx0_read_can_buffer_id_is_read_correctly(void)
     mcp2515_driver_read_can_message(&id, &len, read_buf);
     TEST_ASSERT_EQUAL_HEX8(0x7FF, id);
 }
+
+void test_rx0_read_can_buffer_length_is_read_correctly(void)
+{
+    uint8_t id          = 0;
+    uint8_t len         = 0;
+    uint8_t read_buf[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+    uint8_t p_id[]      = {0xFF, 0xE0, 0, 0};
+
+    mcp2515_read_rx_message_expected(p_id, 8, read_buf);
+
+    mcp2515_driver_read_can_message(&id, &len, read_buf);
+    TEST_ASSERT_EQUAL_HEX8(8, len);
+}
+
+void test_rx0_read_can_buffer_is_read_correctly(void)
+{
+    uint8_t id           = 0;
+    uint8_t len          = 0;
+    uint8_t read_buf1[8] = {1, 2, 3, 4, 5, 6, 7, 8};
+    uint8_t read_buf2[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+    uint8_t p_id[]       = {0xFF, 0xE0, 0, 0};
+
+    mcp2515_read_rx_message_expected(p_id, 8, read_buf1);
+
+    mcp2515_driver_read_can_message(&id, &len, read_buf2);
+    TEST_ASSERT_EQUAL_HEX8_ARRAY(read_buf1, read_buf2, 8);
+}
+
+void test_clear_rx0if_will_read_byte_and_only_clear_the_required_bit(void)
+{
+    spi_driver_cs_low_Expect();
+    spi_driver_exchange_ExpectAndReturn(MCP_READ_STATUS, 0);
+    spi_driver_exchange_ExpectAndReturn(0, 0xFF);
+    spi_driver_cs_high_Expect();
+
+    set_register(MCP_CANINTF, 0b11111110);
+
+    mcp2515_driver_clear_rx0if();
+}
+
+void test_clear_rx0if_will_read_byte_and_only_clear_the_required_bit2(void)
+{
+    spi_driver_cs_low_Expect();
+    spi_driver_exchange_ExpectAndReturn(MCP_READ_STATUS, 0);
+    spi_driver_exchange_ExpectAndReturn(0, 0x00);
+    spi_driver_cs_high_Expect();
+
+    set_register(MCP_CANINTF, 0x00);
+
+    mcp2515_driver_clear_rx0if();
+}
+
+// RXnIF
