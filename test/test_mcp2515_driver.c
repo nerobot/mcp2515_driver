@@ -58,6 +58,14 @@ static void send_buffer(void)
     set_register(MCP_TXB0D7, tx_buf[7]);
 }
 
+void init_rx1(void)
+{
+    set_register(MCP_RXB0CTRL, 0b01100000);
+    set_register(MCP_RXB1CTRL, 0b01100000);
+    // TODO See if the register below needs setting or not
+    // set_register(MCP_BFPCTRL, 0);
+}
+
 void setUp(void)
 {
     spi_driver_cs_high_Expect();
@@ -66,6 +74,8 @@ void setUp(void)
     set_register(MCP_CNF1, MCP_16MHz_1000kBPS_CFG1);
     set_register(MCP_CNF2, MCP_16MHz_1000kBPS_CFG2);
     set_register(MCP_CNF3, MCP_16MHz_1000kBPS_CFG3);
+
+    init_rx1();
 
     set_register(0x0F, 0x00);
 
@@ -279,3 +289,7 @@ void test_tx_send_message_size_is_greater_than_8(void)
     bool success = mcp2515_driver_send_msg_buffer(can_id, 0, 9, tx_buf);
     TEST_ASSERT_FALSE(success);
 }
+
+/*******************************************************************************
+ * Receive messages
+ *******************************************************************************/
