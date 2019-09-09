@@ -74,6 +74,35 @@ static void mcp2515_rx0_is_full_expect(uint8_t status)
     spi_driver_cs_high_Expect();
 }
 
+static void mcp2515_read_rx_message_expected(uint8_t * p_id, uint8_t len,
+                                             uint8_t * p_data)
+{
+    spi_driver_cs_low_Expect();
+
+    spi_driver_exchange_ExpectAndReturn(MCP_READ_BUF_RX0, 0);
+
+    // ID buffers
+    spi_driver_exchange_ExpectAndReturn(0, p_id[0]);
+    spi_driver_exchange_ExpectAndReturn(0, p_id[1]);
+    spi_driver_exchange_ExpectAndReturn(0, p_id[2]);
+    spi_driver_exchange_ExpectAndReturn(0, p_id[3]);
+
+    // Msg length
+    spi_driver_exchange_ExpectAndReturn(0, len);
+
+    // Read msg
+    spi_driver_exchange_ExpectAndReturn(0, p_data[0]);
+    spi_driver_exchange_ExpectAndReturn(0, p_data[1]);
+    spi_driver_exchange_ExpectAndReturn(0, p_data[2]);
+    spi_driver_exchange_ExpectAndReturn(0, p_data[3]);
+    spi_driver_exchange_ExpectAndReturn(0, p_data[4]);
+    spi_driver_exchange_ExpectAndReturn(0, p_data[5]);
+    spi_driver_exchange_ExpectAndReturn(0, p_data[6]);
+    spi_driver_exchange_ExpectAndReturn(0, p_data[7]);
+
+    spi_driver_cs_high_Expect();
+}
+
 void setUp(void)
 {
     spi_driver_cs_high_Expect();
@@ -319,33 +348,12 @@ void test_rx0_is_full_returns_false_when_rx0IF_is_clear(void)
 
 void test_rx0_read_can_buffer_id_is_read_correctly(void)
 {
-    uint8_t id  = 0;
-    uint8_t len = 0;
-    uint8_t read_buf[8];
+    uint8_t id          = 0;
+    uint8_t len         = 0;
+    uint8_t read_buf[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+    uint8_t p_id[]      = {0xFF, 0xE0, 0, 0};
 
-    spi_driver_cs_low_Expect();
-    spi_driver_exchange_ExpectAndReturn(MCP_READ_BUF_RX0, 0);
-
-    // ID buffers
-    spi_driver_exchange_ExpectAndReturn(0, 0xFF);
-    spi_driver_exchange_ExpectAndReturn(0, 0xE0);
-    spi_driver_exchange_ExpectAndReturn(0, 0);
-    spi_driver_exchange_ExpectAndReturn(0, 0);
-
-    // Msg length
-    spi_driver_exchange_ExpectAndReturn(0, 0x08);
-
-    // Read msg
-    spi_driver_exchange_ExpectAndReturn(0, 0);
-    spi_driver_exchange_ExpectAndReturn(0, 0);
-    spi_driver_exchange_ExpectAndReturn(0, 0);
-    spi_driver_exchange_ExpectAndReturn(0, 0);
-    spi_driver_exchange_ExpectAndReturn(0, 0);
-    spi_driver_exchange_ExpectAndReturn(0, 0);
-    spi_driver_exchange_ExpectAndReturn(0, 0);
-    spi_driver_exchange_ExpectAndReturn(0, 0);
-
-    spi_driver_cs_high_Expect();
+    mcp2515_read_rx_message_expected(p_id, 8, read_buf);
 
     mcp2515_driver_read_can_message(&id, &len, read_buf);
     TEST_ASSERT_EQUAL_HEX8(0x7FF, id);
