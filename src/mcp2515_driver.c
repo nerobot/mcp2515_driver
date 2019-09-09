@@ -52,12 +52,23 @@ static inline bool check_bit(uint8_t value, uint8_t bit)
     return (value & (1 << bit));
 }
 
+static void init_rx_buffers(void)
+{
+    // all filters off, rollover disabled
+    set_register(MCP_RXB0CTRL, 0b01100000);
+    // all filters off
+    set_register(MCP_RXB1CTRL, 0b01100000);
+}
+
 // TODO: Do I want to add SPI init here?
 void mcp2515_init(void)
 {
     cs_high();
     mcp2515_driver_reset();
     mcp2515_driver_set_baudrate(CAN_1000KBPS, MCP_16MHZ);
+
+    // Set up rx buffers
+    init_rx_buffers();
 
     // Set into normal mode
     // TODO: create seperate function for this
