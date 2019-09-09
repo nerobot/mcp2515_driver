@@ -240,3 +240,49 @@ bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
 
     return true;
 }
+
+bool mcp2515_rx0_is_full(void)
+{
+    cs_low();
+    spi_driver_exchange(MCP_READ_STATUS);
+    // spi_driver_exchange();
+    uint8_t status = spi_driver_exchange(0);
+    cs_high();
+
+    bool rx0_full = check_bit(status, 0);
+    return rx0_full;
+}
+
+void mcp2515_driver_read_can_message(uint8_t * id, uint8_t * len,
+                                     uint8_t * read_buf)
+{
+    uint8_t buf[14];
+    uint8_t i = 0;
+
+    cs_low();
+    spi_driver_exchange(MCP_READ_BUF_RX0);
+
+    // Message ID
+    // TODO Implement ext message ID as well
+    buf[0] = spi_driver_exchange(0);
+    buf[1] = spi_driver_exchange(0);
+    *id    = (uint8_t)((buf[0] << 3) + (buf[1] >> 5));
+
+    // Extended ID - currently not implemented
+    buf[3] = spi_driver_exchange(0);
+    buf[4] = spi_driver_exchange(0);
+
+    // Message length
+    buf[5] = spi_driver_exchange(0);
+    // *len    = buf[5];
+
+    // Reading the data
+    uint8_t * p_read_buf = read_buf;
+    for (i = 0; i < 8; i++)
+    {
+        // *p_read_buf++ = spi_driver_exchange(0);
+        spi_driver_exchange(0);
+    }
+
+    cs_high();
+}

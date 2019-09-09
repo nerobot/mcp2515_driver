@@ -56,4 +56,9 @@ void mcp2515_driver_init_can_buffers(void);
 bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
                                     uint8_t buf_size, uint8_t * tx_buf);
 
+bool mcp2515_rx0_is_full(void);
+
+void mcp2515_driver_read_can_message(uint8_t * id, uint8_t * len,
+                                     uint8_t * read_buf);
+
 #endif // _MCP2551_DRIVER_H
