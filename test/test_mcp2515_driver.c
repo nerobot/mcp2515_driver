@@ -23,8 +23,6 @@ static bool reset(uint8_t param[])
     spi_driver_exchange_ExpectAndReturn(MCP_CANSTAT, param[2]);
     spi_driver_exchange_ExpectAndReturn(0, param[3]);
     spi_driver_cs_high_Expect();
-
-    // return mcp2515_driver_reset();
 }
 
 static void set_register(uint8_t address, uint8_t value)
@@ -108,9 +106,9 @@ void setUp(void)
     spi_driver_cs_high_Expect();
     reset(reset_param);
 
-    set_register(MCP_CNF1, MCP_16MHz_1000kBPS_CFG1);
-    set_register(MCP_CNF2, MCP_16MHz_1000kBPS_CFG2);
-    set_register(MCP_CNF3, MCP_16MHz_1000kBPS_CFG3);
+    set_register(MCP_CNF1, MCP_16MHz_5kBPS_CFG1);
+    set_register(MCP_CNF2, MCP_16MHz_5kBPS_CFG2);
+    set_register(MCP_CNF3, MCP_16MHz_5kBPS_CFG3);
 
     init_rx1();
 
