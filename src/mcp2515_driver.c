@@ -78,6 +78,7 @@ void mcp2515_init(void)
 
     // Set into normal mode
     // TODO: create seperate function for this
+    // TODO: Add funtionality to check if the device went into the correct mode
     set_register(0x0F, 0x00);
 }
 
@@ -247,6 +248,7 @@ bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
     return true;
 }
 
+// TODO Remane to something better
 bool mcp2515_rx0_is_full(void)
 {
     cs_low();
@@ -275,12 +277,12 @@ void mcp2515_driver_read_can_message(uint8_t * id, uint8_t * len,
     *id    = (uint8_t)((buf[0] << 3) + (buf[1] >> 5));
 
     // Extended ID - currently not implemented
+    buf[2] = spi_driver_exchange(0);
     buf[3] = spi_driver_exchange(0);
-    buf[4] = spi_driver_exchange(0);
 
     // Message length
-    buf[5] = spi_driver_exchange(0);
-    *len   = buf[5];
+    buf[4] = spi_driver_exchange(0);
+    *len   = buf[4];
 
     // Reading the data
     // TODO Only read as many bytes as is needed
