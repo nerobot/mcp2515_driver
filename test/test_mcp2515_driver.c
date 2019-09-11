@@ -60,8 +60,6 @@ static void init_rx1(void)
 {
     set_register(MCP_RXB0CTRL, 0b01100000);
     set_register(MCP_RXB1CTRL, 0b01100000);
-    // TODO See if the register below needs setting or not
-    // set_register(MCP_BFPCTRL, 0);
 }
 
 static void mcp2515_rx0_is_full_expect(uint8_t status)
