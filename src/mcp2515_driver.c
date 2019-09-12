@@ -74,12 +74,15 @@ static uint8_t read_status(void)
     return status;
 }
 
+// TODO First check the current value of canctrl and only change what's needed
 static bool change_mode(uint8_t mode)
 {
     // Read the current value of CANCTRL
     // uint8_t canctrl = read_register(MCP_CANCTRL);
     // canctrl &= ((mode << 5) & 0xFF);
     set_register(MCP_CANCTRL, mode);
+    // TODO check that canctrl has been changed as required
+    // Return if not the same
 }
 
 // TODO: Do I want to add SPI init here?
