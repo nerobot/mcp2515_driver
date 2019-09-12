@@ -1,3 +1,16 @@
+/**
+ * Funtinality to add:
+ * * Sending and recieving ext messages
+ * * Sending and recieving variable message sizes
+ * * Set up and use interrupt and txNrts lines
+ * * Use both rx buffers
+ * * Use both tx buffers
+ * * Look into potential low power modes
+ * * Implement filters
+ * * Implement masks
+ * * Implement the ability to use one shot mode
+ */
+
 #ifndef _MCP2515_DRIVER_H
 #define _MCP2515_DRIVER_H
 
