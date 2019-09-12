@@ -74,15 +74,20 @@ static uint8_t read_status(void)
     return status;
 }
 
-// TODO First check the current value of canctrl and only change what's needed
 static bool change_mode(uint8_t mode)
 {
-    // Read the current value of CANCTRL
-    // uint8_t canctrl = read_register(MCP_CANCTRL);
-    // canctrl &= ((mode << 5) & 0xFF);
-    set_register(MCP_CANCTRL, mode);
+    uint8_t canctrl = read_register(MCP_CANCTRL);
+    canctrl &= ((mode << 5) & 0xFF);
+    set_register(MCP_CANCTRL, mode);    
     // TODO check that canctrl has been changed as required
     // Return if not the same
+}
+
+static uint8_t read_mode(void)
+{
+	uint8_t mode = read_register(MCP_CANSTAT);
+	mode >>= 5;
+	return mode;	
 }
 
 // TODO: Do I want to add SPI init here?
@@ -101,7 +106,12 @@ bool mcp2515_init(void)
     // Set into normal mode
     // TODO: Add funtionality to check if the device went into the correct mode
     //    set_register(0x0F, 0x00);
-    change_mode(0);
+   change_mode(0);
+   if (0 != read_mode())
+   {
+	return false;
+   }
+   return true;
 }
 
 bool mcp2515_driver_reset(void)
@@ -181,7 +191,7 @@ bool mcp2515_driver_set_baudrate(uint8_t can_speed, uint8_t can_clock)
     return true;
 }
 
-// TODO: Implement rx buffers
+// TODO: Implement rx buffers??
 void mcp2515_driver_init_can_buffers(void)
 {
     uint8_t address0 = MCP_TXB0CTRL;

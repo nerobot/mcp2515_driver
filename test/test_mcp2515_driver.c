@@ -12,12 +12,24 @@ uint16_t can_id        = 0x0070;
 uint8_t buf_size       = 8;
 uint8_t tx_buf[8]      = {1, 2, 3, 4, 5, 6, 7, 8};
 
+static void read_register(uint8_t address, uint8_t expected)
+{
+    spi_driver_cs_low_Expect();
+    spi_driver_exchange_ExpectAndReturn(MCP_READ, 0);
+    spi_driver_exchange_ExpectAndReturn(address, 0);
+    spi_driver_exchange_ExpectAndReturn(0, expected);
+    spi_driver_cs_high_Expect();
+}
+
 static bool reset(uint8_t param[])
 {
     spi_driver_cs_low_Expect();
     spi_driver_exchange_ExpectAndReturn(MCP_RESET, param[0]);
     spi_driver_cs_high_Expect();
 
+ //   read_register(MCP_CANCTRL, 0b10000000);
+	
+    // Checking that the device is now in config mode
     spi_driver_cs_low_Expect();
     spi_driver_exchange_ExpectAndReturn(MCP_READ, param[1]);
     spi_driver_exchange_ExpectAndReturn(MCP_CANSTAT, param[2]);
@@ -34,14 +46,7 @@ static void set_register(uint8_t address, uint8_t value)
     spi_driver_cs_high_Expect();
 }
 
-static void read_register(uint8_t address, uint8_t expected)
-{
-    spi_driver_cs_low_Expect();
-    spi_driver_exchange_ExpectAndReturn(MCP_READ, 0);
-    spi_driver_exchange_ExpectAndReturn(address, 0);
-    spi_driver_exchange_ExpectAndReturn(0, expected);
-    spi_driver_cs_high_Expect();
-}
+
 
 static void send_buffer(void)
 {
@@ -99,6 +104,19 @@ static void mcp2515_read_rx_message_expected(uint8_t * p_id, uint8_t len,
     spi_driver_cs_high_Expect();
 }
 
+static void change_mode_expect(void)
+{
+	read_register(MCP_CANCTRL, 0b10000000);
+    set_register(MCP_CANCTRL, 0b00000000);
+
+}
+
+static void read_mode_expect(uint8_t value)
+{
+	read_register(MCP_CANSTAT, value);
+}
+
+
 void setUp(void)
 {
     reset_param[0] = 0, 0, 0, 0b10000000;
@@ -115,9 +133,10 @@ void setUp(void)
 
     init_rx1();
 
-    set_register(0x0F, 0x00);
+    change_mode_expect();
+    read_mode_expect(0b00000000);
 
-    mcp2515_init();
+   mcp2515_init();
 }
 
 void tearDown(void)
@@ -161,6 +180,30 @@ void test_init_will_return_false_if_reset_fails(void)
 
     bool success = mcp2515_init();
     TEST_ASSERT_FALSE(success);
+}
+
+void test_init_will_return_false_if_it_does_not_finish_in_normal_mode(void)
+{
+reset_param[0] = 0, 0, 0, 0b10000000;
+    reset_param[1] = 0, 0, 0b10000000;
+    reset_param[2] = 0, 0b10000000;
+    reset_param[3] = 0b10000000;
+
+    spi_driver_cs_high_Expect();
+    reset(reset_param);
+
+    set_register(MCP_CNF1, MCP_16MHz_5kBPS_CFG1);
+    set_register(MCP_CNF2, MCP_16MHz_5kBPS_CFG2);
+    set_register(MCP_CNF3, MCP_16MHz_5kBPS_CFG3);
+
+    init_rx1();
+
+    change_mode_expect();
+    read_mode_expect(0b10000000);
+
+   bool success = mcp2515_init();
+
+ TEST_ASSERT_FALSE(success);
 }
 
 void test_set_baudrate_can_clock_out_off_bounds_return_false(void)
@@ -209,6 +252,9 @@ void test_init_can_buffers_will_zero_to_all_txctrl_regs(void)
     mcp2515_driver_init_can_buffers();
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// Transmission
+///////////////////////////////////////////////////////////////////////////////
 void test_tx1_si_all_ok(void)
 {
     read_register(MCP_TXB0CTRL, 0x00);
