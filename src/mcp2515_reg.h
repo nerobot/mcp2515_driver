@@ -18,6 +18,7 @@
     0b10010000 // Note this value is incorrect in the datasheet
 
 #define MCP_CANSTAT 0x0E
+#define MCP_CANCTRL 0x0F
 #define MCP_CNF3 0x28
 #define MCP_CNF2 0x29
 #define MCP_CNF1 0x2A
