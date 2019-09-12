@@ -74,6 +74,14 @@ static uint8_t read_status(void)
     return status;
 }
 
+static bool change_mode(uint8_t mode)
+{
+    // Read the current value of CANCTRL
+    // uint8_t canctrl = read_register(MCP_CANCTRL);
+    // canctrl &= ((mode << 5) & 0xFF);
+    set_register(MCP_CANCTRL, mode);
+}
+
 // TODO: Do I want to add SPI init here?
 bool mcp2515_init(void)
 {
@@ -88,9 +96,9 @@ bool mcp2515_init(void)
     init_rx_buffers();
 
     // Set into normal mode
-    // TODO: create seperate function for this
     // TODO: Add funtionality to check if the device went into the correct mode
-    set_register(0x0F, 0x00);
+    //    set_register(0x0F, 0x00);
+    change_mode(0);
 }
 
 bool mcp2515_driver_reset(void)
