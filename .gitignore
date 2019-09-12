@@ -1,3 +1,11 @@
 build/test/*
 build/artifacts/*
 .vscode/*
+src/.*
+src/*~
+tests/.*
+tests/*~
+..gitignore.un~
+*~
+*.swp
+
