@@ -290,6 +290,7 @@ bool mcp2515_rx0_is_full(void)
     return rx0_full;
 }
 
+// TODO Remove all the direct spi calls so that they are kept in the same place
 void mcp2515_driver_read_can_message(uint8_t * id, uint8_t * len,
                                      uint8_t * read_buf)
 {
