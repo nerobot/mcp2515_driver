@@ -101,6 +101,11 @@ static void mcp2515_read_rx_message_expected(uint8_t * p_id, uint8_t len,
 
 void setUp(void)
 {
+    reset_param[0] = 0, 0, 0, 0b10000000;
+    reset_param[1] = 0, 0, 0b10000000;
+    reset_param[2] = 0, 0b10000000;
+    reset_param[3] = 0b10000000;
+
     spi_driver_cs_high_Expect();
     reset(reset_param);
 
@@ -123,6 +128,9 @@ void test_init(void)
 {
 }
 
+/*******************************************************************************
+ * Initialising
+ ******************************************************************************/
 void test_reset_all_ok(void)
 {
     reset(reset_param);
@@ -141,6 +149,17 @@ void test_after_reset_device_not_in_config_mode_return_false(void)
     reset_param[3] = 0;
     reset(reset_param);
     bool success = mcp2515_driver_reset();
+    TEST_ASSERT_FALSE(success);
+}
+
+void test_init_will_return_false_if_reset_fails(void)
+{
+    reset_param[3] = 0;
+    spi_driver_cs_high_Expect();
+
+    reset(reset_param);
+
+    bool success = mcp2515_init();
     TEST_ASSERT_FALSE(success);
 }
 

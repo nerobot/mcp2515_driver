@@ -6,7 +6,7 @@
 #include "spi_driver.h"
 #include "mcp2515_reg.h"
 
-void mcp2515_init(void);
+bool mcp2515_init(void);
 
 /**
  * @brief           Causes a reset via SPI command.

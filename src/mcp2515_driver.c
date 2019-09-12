@@ -65,12 +65,23 @@ static void init_rx_buffers(void)
     set_register(MCP_RXB1CTRL, 0b01100000);
 }
 
+static uint8_t read_status(void)
+{
+    cs_low();
+    spi_driver_exchange(MCP_READ_STATUS);
+    uint8_t status = spi_driver_exchange(0);
+    cs_high();
+    return status;
+}
+
 // TODO: Do I want to add SPI init here?
-void mcp2515_init(void)
+bool mcp2515_init(void)
 {
     cs_high();
-    // TODO Do some checking if reset was successful
-    mcp2515_driver_reset();
+    if (false == mcp2515_driver_reset())
+    {
+        return false;
+    }
     mcp2515_driver_set_baudrate(CAN_5KBPS, MCP_16MHZ);
 
     // Set up rx buffers
@@ -89,6 +100,7 @@ bool mcp2515_driver_reset(void)
     spi_driver_exchange(MCP_RESET);
     cs_high();
 
+    // Checking to see if the device is now in config mode after the reset
     // TODO: The calls below should be inside a function call to remove the
     // repeated code
     cs_low();
@@ -251,11 +263,7 @@ bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
 // TODO Remane to something better
 bool mcp2515_rx0_is_full(void)
 {
-    cs_low();
-    spi_driver_exchange(MCP_READ_STATUS);
-    // spi_driver_exchange();
-    uint8_t status = spi_driver_exchange(0);
-    cs_high();
+    uint8_t status = read_status();
 
     bool rx0_full = check_bit(status, 0);
     return rx0_full;
@@ -295,16 +303,11 @@ void mcp2515_driver_read_can_message(uint8_t * id, uint8_t * len,
     cs_high();
 }
 
+// TODO Implement a read_status function
 void mcp2515_driver_clear_rx0if(void)
 {
-    // TODO Remove duplicated code below
-    cs_low();
-    spi_driver_exchange(MCP_READ_STATUS);
-    // spi_driver_exchange();
-    uint8_t status = spi_driver_exchange(0);
-    cs_high();
+    uint8_t status = read_status();
 
     status = clear_bit(status, 0);
-
     set_register(MCP_CANINTF, status);
 }
