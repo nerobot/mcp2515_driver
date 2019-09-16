@@ -10,12 +10,13 @@
 #ifndef _MCP2515_REG_H
 #define _MCP2515_REG_H
 
-#define MCP_RESET 0b11000000
-#define MCP_READ 0b00000011
-#define MCP_WRITE 0b00000010
-#define MCP_READ_STATUS 0b10100000
-#define MCP_READ_BUF_RX0                                                       \
-    0b10010000 // Note this value is incorrect in the datasheet
+#define MCP_MAX_STD_BUF_SIZE    8
+
+#define MCP_RESET               0b11000000
+#define MCP_READ                0b00000011
+#define MCP_WRITE               0b00000010
+#define MCP_READ_STATUS         0b10100000
+#define MCP_READ_BUF_RX0        0b10010000      // Note, this value is incorrect in the datasheet
 
 #define MCP_CANSTAT 0x0E
 #define MCP_CANCTRL 0x0F
