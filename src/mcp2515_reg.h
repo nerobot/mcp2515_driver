@@ -7,6 +7,8 @@
  *
  */
 
+// TODO Clean up the defines so that they are all aligned
+
 #ifndef _MCP2515_REG_H
 #define _MCP2515_REG_H
 

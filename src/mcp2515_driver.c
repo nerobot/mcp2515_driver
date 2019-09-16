@@ -292,6 +292,7 @@ bool mcp2515_rx0_is_full(void)
 }
 
 // TODO Remove all the direct spi calls so that they are kept in the same place
+// It might be better to leave here and just try and improve the efficiency instead
 void mcp2515_driver_read_can_message(uint8_t * id, uint8_t * len,
                                      uint8_t * read_buf)
 {
@@ -317,6 +318,8 @@ void mcp2515_driver_read_can_message(uint8_t * id, uint8_t * len,
 
     // Reading the data
     // TODO Only read as many bytes as is needed
+    // Only std messages are currently being read.
+    // Warning: I'm not sure what will happen if an ext message is sent
     uint8_t * p_read_buf = read_buf;
     for (i = 0; i < 8; i++)
     {
