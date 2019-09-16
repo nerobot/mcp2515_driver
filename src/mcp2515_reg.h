@@ -37,6 +37,7 @@
 #define MCP_16MHZ 1
 #define MCP_8MHZ 2
 
+// TODO Change names so that they start with MCP for consistancy
 #define CAN_5KBPS 1
 #define CAN_10KBPS 2
 #define CAN_20KBPS 3
