@@ -57,6 +57,8 @@ static inline uint8_t clear_bit(uint8_t value, uint8_t bit)
     return (value & ~(1 << bit));
 }
 
+// TODO Add ability to change / add filters.
+// This might be better to keep as it is for here and add a seperate function for adding filters
 static void init_rx_buffers(void)
 {
     // all filters off, rollover disabled
@@ -105,7 +107,6 @@ bool mcp2515_init(void)
 
     // Set into normal mode
     // TODO: Add funtionality to check if the device went into the correct mode
-    //    set_register(0x0F, 0x00);
    change_mode(0);
    if (0 != read_mode())
    {
@@ -192,6 +193,7 @@ bool mcp2515_driver_set_baudrate(uint8_t can_speed, uint8_t can_clock)
 }
 
 // TODO: Implement rx buffers??
+// Not actually sure if the above is needed or not
 void mcp2515_driver_init_can_buffers(void)
 {
     uint8_t address0 = MCP_TXB0CTRL;
@@ -223,8 +225,7 @@ bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,
         return false;
     }
 
-    // TODO: Remove magic number 8
-    if (buf_size > 8)
+    if (buf_size > MCP_MAX_STD_BUF_SIZE)
     {
         return false;
     }
