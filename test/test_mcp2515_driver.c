@@ -289,6 +289,17 @@ void test_set_B0BFM_will_read_then_set_then_read_BFPCTRL(void)
     mcp2515_driver_set_b0bfm();
 }
 
+void test_set_B0BFE_will_read_then_set_then_read_BFPCTRL(void)
+{
+    read_register(MCP_BFPCTRL, 0x00);
+    write_register(MCP_BFPCTRL, 0x02);
+    read_register(MCP_BFPCTRL, 0x02);
+    
+    mcp2515_driver_set_b0bfe();
+}
+
+
+
 ///////////////////////////////////////////////////////////////////////////////
 // Transmission
 ///////////////////////////////////////////////////////////////////////////////
