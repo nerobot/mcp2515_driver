@@ -82,6 +82,7 @@
 #define MCP_RXB1SIDH 0x71
 #define MCP_BFPCTRL 0x0C
 
-#define MCP_CANINTF 0x2C
+#define MCP_CANINTF     0x2C
+#define MCP_CANINTE     0x2B
 
 #endif // _MCP2551_REG_H

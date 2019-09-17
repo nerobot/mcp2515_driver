@@ -37,6 +37,12 @@ static void set_register(uint8_t address, uint8_t value)
     cs_high();
 }
 
+
+static void write_register(uint8_t address, uint8_t value)
+{
+    set_register(address, value);
+}
+
 static uint8_t read_register(uint8_t address)
 {
     cs_low();
@@ -55,6 +61,11 @@ static inline bool check_bit(uint8_t value, uint8_t bit)
 static inline uint8_t clear_bit(uint8_t value, uint8_t bit)
 {
     return (value & ~(1 << bit));
+}
+
+static inline uint8_t set_bit(uint8_t value, uint8_t bit)
+{
+    return (value | (1 << bit));
 }
 
 // TODO Add ability to change / add filters.
@@ -337,3 +348,19 @@ void mcp2515_driver_clear_rx0if(void)
     status = clear_bit(status, 0);
     set_register(MCP_CANINTF, status);
 }
+
+
+bool mcp2515_set_rx0ie(void)
+{
+    uint8_t status = read_register(MCP_CANINTE);
+    status = set_bit(status, 0);
+    write_register(MCP_CANINTE, status);
+    uint8_t status2 = read_register(MCP_CANINTE);
+
+    if (status != status2)
+    {
+        return false;
+    }
+    return true;    
+}
+

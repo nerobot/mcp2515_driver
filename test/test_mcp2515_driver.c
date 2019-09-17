@@ -47,6 +47,10 @@ static void set_register(uint8_t address, uint8_t value)
 }
 
 
+static void write_register(uint8_t address, uint8_t value)
+{
+    set_register(address, value);
+}
 
 static void send_buffer(void)
 {
@@ -250,6 +254,30 @@ void test_init_can_buffers_will_zero_to_all_txctrl_regs(void)
     }
 
     mcp2515_driver_init_can_buffers();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Parameter Changing
+///////////////////////////////////////////////////////////////////////////////
+
+void test_enable_rx0ie_sets_reads_and_returns_true_when_bit_changed(void)
+{
+    read_register(MCP_CANINTE, 0x00);
+    write_register(MCP_CANINTE, 0x01);
+    read_register(MCP_CANINTE, 0x01);
+
+    bool success = mcp2515_set_rx0ie();
+    TEST_ASSERT(success);
+}  
+
+void test_set_rx0ie_returns_false_if_not_set(void)
+{
+    read_register(MCP_CANINTE, 0x00);
+    write_register(MCP_CANINTE, 0x01);
+    read_register(MCP_CANINTE, 0x00);
+
+    bool success = mcp2515_set_rx0ie();
+    TEST_ASSERT_FALSE(success);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -471,4 +499,3 @@ void test_clear_rx0if_will_read_byte_and_only_clear_the_required_bit2(void)
     mcp2515_driver_clear_rx0if();
 }
 
-// RXnIF
