@@ -77,5 +77,6 @@ void mcp2515_driver_read_can_message(uint8_t * id, uint8_t * len,
 void mcp2515_driver_clear_rx0if(void);
 
 bool mcp2515_set_rx0ie(void);
+bool mcp2515_driver_set_b0bfm(void);
 
-#endif // _MCP2551_DRIVER_H
+#endif

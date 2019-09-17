@@ -280,6 +280,15 @@ void test_set_rx0ie_returns_false_if_not_set(void)
     TEST_ASSERT_FALSE(success);
 }
 
+void test_set_B0BFM_will_read_then_set_then_read_BFPCTRL(void)
+{
+    read_register(MCP_BFPCTRL, 0x00);
+    write_register(MCP_BFPCTRL, 0x01);
+    read_register(MCP_BFPCTRL, 0x01);
+    
+    mcp2515_driver_set_b0bfm();
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Transmission
 ///////////////////////////////////////////////////////////////////////////////

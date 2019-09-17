@@ -103,6 +103,21 @@ static uint8_t read_mode(void)
 	return mode;	
 }
 
+static bool set_register_bit(uint8_t address, uint8_t bit)
+{
+    uint8_t status = read_register(address);
+
+    status = set_bit(status, bit);
+    write_register(address, status);
+    uint8_t status2 = read_register(address);
+
+    if (status != status2)
+    {
+        return false;
+    }
+    return true; 
+}
+
 // TODO: Do I want to add SPI init here?
 bool mcp2515_init(void)
 {
@@ -352,15 +367,11 @@ void mcp2515_driver_clear_rx0if(void)
 
 bool mcp2515_set_rx0ie(void)
 {
-    uint8_t status = read_register(MCP_CANINTE);
-    status = set_bit(status, 0);
-    write_register(MCP_CANINTE, status);
-    uint8_t status2 = read_register(MCP_CANINTE);
+    return set_register_bit(MCP_CANINTE, 0);   
+}
 
-    if (status != status2)
-    {
-        return false;
-    }
-    return true;    
+bool mcp2515_driver_set_b0bfm(void)
+{
+    return set_register_bit(MCP_BFPCTRL, 0);   
 }
 
