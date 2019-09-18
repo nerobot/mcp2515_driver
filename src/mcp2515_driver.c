@@ -12,7 +12,7 @@ static inline void cs_high(void)
 
 static bool is_can_clock_within_bounds(uint8_t value)
 {
-    if (value > MCP_8MHZ)
+    if (value > MCP_16MHZ)
     {
         return false;
     }
