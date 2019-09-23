@@ -126,7 +126,6 @@ static bool set_register_bit(uint8_t address, uint8_t bit)
     return true; 
 }
 
-// TODO: Do I want to add SPI init here?
 bool mcp2515_init(void)
 {
     cs_high();
@@ -141,6 +140,8 @@ bool mcp2515_init(void)
 
     // Setting up the rx0 interrupt
     mcp2515_set_rx0ie();
+
+    // TODO Add function to clear all current interrupts incase any happened during set up
 
     // Set into normal mode
     // TODO: Add funtionality to check if the device went into the correct mode

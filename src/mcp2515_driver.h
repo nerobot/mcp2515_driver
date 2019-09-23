@@ -19,6 +19,10 @@
 #include "spi_driver.h"
 #include "mcp2515_reg.h"
 
+/**
+ *
+ * @warning         SPI must be initialised before this funtion
+ */
 bool mcp2515_init(void);
 
 /**
