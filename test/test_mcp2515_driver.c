@@ -120,6 +120,13 @@ static void read_mode_expect(uint8_t value)
 	read_register(MCP_CANSTAT, value);
 }
 
+static void set_register_bit(uint8_t address, uint8_t bit)
+{
+    read_register(address, 0x00);
+
+    write_register(address, 1 << bit);
+    read_register(address, 1 << bit);
+}
 
 void setUp(void)
 {
@@ -136,6 +143,8 @@ void setUp(void)
     set_register(MCP_CNF3, MCP_16MHz_5kBPS_CFG3);
 
     init_rx1();
+
+    set_register_bit(MCP_CANINTE, 0);
 
     change_mode_expect();
     read_mode_expect(0b00000000);
@@ -201,6 +210,8 @@ reset_param[0] = 0, 0, 0, 0b10000000;
     set_register(MCP_CNF3, MCP_16MHz_5kBPS_CFG3);
 
     init_rx1();
+
+    set_register_bit(MCP_CANINTE, 0);
 
     change_mode_expect();
     read_mode_expect(0b10000000);

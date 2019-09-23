@@ -131,6 +131,9 @@ bool mcp2515_init(void)
     // Set up rx buffers
     init_rx_buffers();
 
+    // Setting up the rx0 interrupt
+    mcp2515_set_rx0ie();
+
     // Set into normal mode
     // TODO: Add funtionality to check if the device went into the correct mode
    change_mode(0);
