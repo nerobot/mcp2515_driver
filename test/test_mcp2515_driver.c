@@ -1,3 +1,11 @@
+/**
+ * @file    test_mcp2515_driver
+ * @author  Steven Daglish
+ * @version 0.1
+ * @date    03 September 2019
+ *
+ */
+
 #include "unity.h"
 #include "mcp2515_driver.h"
 #include "mock_spi_driver.h"
@@ -31,6 +39,7 @@ static bool reset(uint8_t param[])
     spi_driver_exchange_ExpectAndReturn(MCP_RESET, param[0]);
     spi_driver_cs_high_Expect();
 
+    // TODO Remove the line below
  //   read_register(MCP_CANCTRL, 0b10000000);
 	
     // Checking that the device is now in config mode
