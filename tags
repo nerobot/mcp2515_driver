@@ -1,0 +1,98 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/39e840e6/
+CAN_1000KBPS	./src\\mcp2515_reg.h	/^#define CAN_1000KBPS /;"	d
+CAN_100KBPS	./src\\mcp2515_reg.h	/^#define CAN_100KBPS /;"	d
+CAN_10KBPS	./src\\mcp2515_reg.h	/^#define CAN_10KBPS /;"	d
+CAN_125KBPS	./src\\mcp2515_reg.h	/^#define CAN_125KBPS /;"	d
+CAN_200KBPS	./src\\mcp2515_reg.h	/^#define CAN_200KBPS /;"	d
+CAN_20KBPS	./src\\mcp2515_reg.h	/^#define CAN_20KBPS /;"	d
+CAN_250KBPS	./src\\mcp2515_reg.h	/^#define CAN_250KBPS /;"	d
+CAN_25KBPS	./src\\mcp2515_reg.h	/^#define CAN_25KBPS /;"	d
+CAN_31K25BPS	./src\\mcp2515_reg.h	/^#define CAN_31K25BPS /;"	d
+CAN_33KBPS	./src\\mcp2515_reg.h	/^#define CAN_33KBPS /;"	d
+CAN_40KBPS	./src\\mcp2515_reg.h	/^#define CAN_40KBPS /;"	d
+CAN_500KBPS	./src\\mcp2515_reg.h	/^#define CAN_500KBPS /;"	d
+CAN_50KBPS	./src\\mcp2515_reg.h	/^#define CAN_50KBPS /;"	d
+CAN_5KBPS	./src\\mcp2515_reg.h	/^#define CAN_5KBPS /;"	d
+CAN_666KBPS	./src\\mcp2515_reg.h	/^#define CAN_666KBPS /;"	d
+CAN_80KBPS	./src\\mcp2515_reg.h	/^#define CAN_80KBPS /;"	d
+CAN_83K3BPS	./src\\mcp2515_reg.h	/^#define CAN_83K3BPS /;"	d
+CAN_95KBPS	./src\\mcp2515_reg.h	/^#define CAN_95KBPS /;"	d
+MCP_16MHZ	./src\\mcp2515_reg.h	/^#define MCP_16MHZ /;"	d
+MCP_16MHz_1000kBPS_CFG1	./src\\mcp2515_reg.h	/^#define MCP_16MHz_1000kBPS_CFG1 /;"	d
+MCP_16MHz_1000kBPS_CFG2	./src\\mcp2515_reg.h	/^#define MCP_16MHz_1000kBPS_CFG2 /;"	d
+MCP_16MHz_1000kBPS_CFG3	./src\\mcp2515_reg.h	/^#define MCP_16MHz_1000kBPS_CFG3 /;"	d
+MCP_16MHz_5kBPS_CFG1	./src\\mcp2515_reg.h	/^#define MCP_16MHz_5kBPS_CFG1 /;"	d
+MCP_16MHz_5kBPS_CFG2	./src\\mcp2515_reg.h	/^#define MCP_16MHz_5kBPS_CFG2 /;"	d
+MCP_16MHz_5kBPS_CFG3	./src\\mcp2515_reg.h	/^#define MCP_16MHz_5kBPS_CFG3 /;"	d
+MCP_8MHZ	./src\\mcp2515_reg.h	/^#define MCP_8MHZ /;"	d
+MCP_BFPCTRL	./src\\mcp2515_reg.h	/^#define MCP_BFPCTRL /;"	d
+MCP_CANCTRL	./src\\mcp2515_reg.h	/^#define MCP_CANCTRL /;"	d
+MCP_CANINTE	./src\\mcp2515_reg.h	/^#define MCP_CANINTE /;"	d
+MCP_CANINTF	./src\\mcp2515_reg.h	/^#define MCP_CANINTF /;"	d
+MCP_CANSTAT	./src\\mcp2515_reg.h	/^#define MCP_CANSTAT /;"	d
+MCP_CNF1	./src\\mcp2515_reg.h	/^#define MCP_CNF1 /;"	d
+MCP_CNF2	./src\\mcp2515_reg.h	/^#define MCP_CNF2 /;"	d
+MCP_CNF3	./src\\mcp2515_reg.h	/^#define MCP_CNF3 /;"	d
+MCP_MAX_STD_BUF_SIZE	./src\\mcp2515_reg.h	/^#define MCP_MAX_STD_BUF_SIZE /;"	d
+MCP_READ	./src\\mcp2515_reg.h	/^#define MCP_READ /;"	d
+MCP_READ_BUF_RX0	./src\\mcp2515_reg.h	/^#define MCP_READ_BUF_RX0 /;"	d
+MCP_READ_STATUS	./src\\mcp2515_reg.h	/^#define MCP_READ_STATUS /;"	d
+MCP_RESET	./src\\mcp2515_reg.h	/^#define MCP_RESET /;"	d
+MCP_RXB0CTRL	./src\\mcp2515_reg.h	/^#define MCP_RXB0CTRL /;"	d
+MCP_RXB0SIDH	./src\\mcp2515_reg.h	/^#define MCP_RXB0SIDH /;"	d
+MCP_RXB1CTRL	./src\\mcp2515_reg.h	/^#define MCP_RXB1CTRL /;"	d
+MCP_RXB1SIDH	./src\\mcp2515_reg.h	/^#define MCP_RXB1SIDH /;"	d
+MCP_TXB0CTRL	./src\\mcp2515_reg.h	/^#define MCP_TXB0CTRL /;"	d
+MCP_TXB0D0	./src\\mcp2515_reg.h	/^#define MCP_TXB0D0 /;"	d
+MCP_TXB0D1	./src\\mcp2515_reg.h	/^#define MCP_TXB0D1 /;"	d
+MCP_TXB0D2	./src\\mcp2515_reg.h	/^#define MCP_TXB0D2 /;"	d
+MCP_TXB0D3	./src\\mcp2515_reg.h	/^#define MCP_TXB0D3 /;"	d
+MCP_TXB0D4	./src\\mcp2515_reg.h	/^#define MCP_TXB0D4 /;"	d
+MCP_TXB0D5	./src\\mcp2515_reg.h	/^#define MCP_TXB0D5 /;"	d
+MCP_TXB0D6	./src\\mcp2515_reg.h	/^#define MCP_TXB0D6 /;"	d
+MCP_TXB0D7	./src\\mcp2515_reg.h	/^#define MCP_TXB0D7 /;"	d
+MCP_TXB0DLC	./src\\mcp2515_reg.h	/^#define MCP_TXB0DLC /;"	d
+MCP_TXB0EID0	./src\\mcp2515_reg.h	/^#define MCP_TXB0EID0 /;"	d
+MCP_TXB0EID8	./src\\mcp2515_reg.h	/^#define MCP_TXB0EID8 /;"	d
+MCP_TXB0SIDH	./src\\mcp2515_reg.h	/^#define MCP_TXB0SIDH /;"	d
+MCP_TXB0SIDL	./src\\mcp2515_reg.h	/^#define MCP_TXB0SIDL /;"	d
+MCP_TXB1CTRL	./src\\mcp2515_reg.h	/^#define MCP_TXB1CTRL /;"	d
+MCP_TXB1SIDH	./src\\mcp2515_reg.h	/^#define MCP_TXB1SIDH /;"	d
+MCP_TXB2CTRL	./src\\mcp2515_reg.h	/^#define MCP_TXB2CTRL /;"	d
+MCP_TXB2SIDH	./src\\mcp2515_reg.h	/^#define MCP_TXB2SIDH /;"	d
+MCP_WRITE	./src\\mcp2515_reg.h	/^#define MCP_WRITE /;"	d
+_MCP2515_DRIVER_H	./src\\mcp2515_driver.h	/^#define _MCP2515_DRIVER_H$/;"	d
+_MCP2515_REG_H	./src\\mcp2515_reg.h	/^#define _MCP2515_REG_H$/;"	d
+_SPI_DRIVER_H	./src\\spi_driver.h	/^#define _SPI_DRIVER_H$/;"	d
+change_mode	./src\\mcp2515_driver.c	/^static bool change_mode(uint8_t mode)$/;"	f	typeref:typename:bool	file:
+check_bit	./src\\mcp2515_driver.c	/^static inline bool check_bit(uint8_t value, uint8_t bit)$/;"	f	typeref:typename:bool	file:
+clear_bit	./src\\mcp2515_driver.c	/^static inline uint8_t clear_bit(uint8_t value, uint8_t bit)$/;"	f	typeref:typename:uint8_t	file:
+cs_high	./src\\mcp2515_driver.c	/^static inline void cs_high(void)$/;"	f	typeref:typename:void	file:
+cs_low	./src\\mcp2515_driver.c	/^static inline void cs_low(void)$/;"	f	typeref:typename:void	file:
+init_rx_buffers	./src\\mcp2515_driver.c	/^static void init_rx_buffers(void)$/;"	f	typeref:typename:void	file:
+is_can_clock_within_bounds	./src\\mcp2515_driver.c	/^static bool is_can_clock_within_bounds(uint8_t value)$/;"	f	typeref:typename:bool	file:
+is_can_speed_within_bounds	./src\\mcp2515_driver.c	/^static bool is_can_speed_within_bounds(uint8_t value)$/;"	f	typeref:typename:bool	file:
+mcp2515_driver_clear_rx0if	./src\\mcp2515_driver.c	/^void mcp2515_driver_clear_rx0if(void)$/;"	f	typeref:typename:void
+mcp2515_driver_init_can_buffers	./src\\mcp2515_driver.c	/^void mcp2515_driver_init_can_buffers(void)$/;"	f	typeref:typename:void
+mcp2515_driver_read_can_message	./src\\mcp2515_driver.c	/^void mcp2515_driver_read_can_message(uint8_t * id, uint8_t * len,$/;"	f	typeref:typename:void
+mcp2515_driver_reset	./src\\mcp2515_driver.c	/^bool mcp2515_driver_reset(void)$/;"	f	typeref:typename:bool
+mcp2515_driver_send_msg_buffer	./src\\mcp2515_driver.c	/^bool mcp2515_driver_send_msg_buffer(uint16_t can_id, uint8_t ext,$/;"	f	typeref:typename:bool
+mcp2515_driver_set_b0bfe	./src\\mcp2515_driver.c	/^bool mcp2515_driver_set_b0bfe(void)$/;"	f	typeref:typename:bool
+mcp2515_driver_set_b0bfm	./src\\mcp2515_driver.c	/^bool mcp2515_driver_set_b0bfm(void)$/;"	f	typeref:typename:bool
+mcp2515_driver_set_baudrate	./src\\mcp2515_driver.c	/^bool mcp2515_driver_set_baudrate(uint8_t can_speed, uint8_t can_clock)$/;"	f	typeref:typename:bool
+mcp2515_init	./src\\mcp2515_driver.c	/^bool mcp2515_init(void)$/;"	f	typeref:typename:bool
+mcp2515_rx0_is_full	./src\\mcp2515_driver.c	/^bool mcp2515_rx0_is_full(void)$/;"	f	typeref:typename:bool
+mcp2515_set_rx0ie	./src\\mcp2515_driver.c	/^bool mcp2515_set_rx0ie(void)$/;"	f	typeref:typename:bool
+read_mode	./src\\mcp2515_driver.c	/^static uint8_t read_mode(void)$/;"	f	typeref:typename:uint8_t	file:
+read_register	./src\\mcp2515_driver.c	/^static uint8_t read_register(uint8_t address)$/;"	f	typeref:typename:uint8_t	file:
+read_status	./src\\mcp2515_driver.c	/^static uint8_t read_status(void)$/;"	f	typeref:typename:uint8_t	file:
+set_bit	./src\\mcp2515_driver.c	/^static inline uint8_t set_bit(uint8_t value, uint8_t bit)$/;"	f	typeref:typename:uint8_t	file:
+set_register	./src\\mcp2515_driver.c	/^static void set_register(uint8_t address, uint8_t value)$/;"	f	typeref:typename:void	file:
+set_register_bit	./src\\mcp2515_driver.c	/^static bool set_register_bit(uint8_t address, uint8_t bit)$/;"	f	typeref:typename:bool	file:
+write_register	./src\\mcp2515_driver.c	/^static void write_register(uint8_t address, uint8_t value)$/;"	f	typeref:typename:void	file:
