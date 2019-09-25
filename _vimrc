@@ -13,3 +13,5 @@ augroup project
     autocmd BufRead,BufNewFile *.h,*.c set filetype=c.doxygen 
 augroup END
 
+set makeprg=ceedling
+
