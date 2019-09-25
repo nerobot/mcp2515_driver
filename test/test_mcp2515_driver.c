@@ -1,5 +1,5 @@
 /**
- * @file    test_mcp2515_driver
+ * @file    test_mcp2515_driver.c
  * @author  Steven Daglish
  * @version 0.1
  * @date    03 September 2019
