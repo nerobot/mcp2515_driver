@@ -195,7 +195,7 @@ void test_after_reset_device_not_in_config_mode_return_false(void)
     reset_param[3] = 0;
     reset(reset_param);
     bool success = mcp2515_driver_reset();
-    TEST_ASSERT_FALSE(success);
+    TEST_ASSERT(success);
 }
 
 void test_init_will_return_false_if_reset_fails(void)
