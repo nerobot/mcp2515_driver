@@ -6,7 +6,7 @@
 
 static inline void cs_low(void)
 {
-    spi_driver_cs_low();
+    spi_driver_cs_low()
 }
 
 static inline void cs_high(void)
