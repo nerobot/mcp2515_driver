@@ -390,6 +390,6 @@ bool mcp2515_driver_set_b0bfm(void)
 
 bool mcp2515_driver_set_b0bfe(void)
 {
-    return set_register_bit(MCP_BFPCTRL, 1);   
+    return set_register_bit(MCP_BFPCTRL, 2);   
 }
 

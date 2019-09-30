@@ -336,8 +336,8 @@ void test_set_B0BFM_will_read_then_set_then_read_BFPCTRL(void)
 void test_set_B0BFE_will_read_then_set_then_read_BFPCTRL(void)
 {
     read_register(MCP_BFPCTRL, 0x00);
-    write_register(MCP_BFPCTRL, 0x02);
-    read_register(MCP_BFPCTRL, 0x02);
+    write_register(MCP_BFPCTRL, 0b00000100);
+    read_register(MCP_BFPCTRL, 0b00000100);
     
     mcp2515_driver_set_b0bfe();
 }
