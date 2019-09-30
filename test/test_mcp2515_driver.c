@@ -170,9 +170,9 @@ void setUp(void)
     spi_driver_cs_high_Expect();
     reset(reset_param);
 
-    set_register(MCP_CNF1, MCP_16MHz_5kBPS_CFG1);
-    set_register(MCP_CNF2, MCP_16MHz_5kBPS_CFG2);
-    set_register(MCP_CNF3, MCP_16MHz_5kBPS_CFG3);
+    set_register(MCP_CNF1, MCP_16MHz_1000kBPS_CFG1);
+    set_register(MCP_CNF2, MCP_16MHz_1000kBPS_CFG2);
+    set_register(MCP_CNF3, MCP_16MHz_1000kBPS_CFG3);
 
     init_rx1();
 
@@ -238,15 +238,15 @@ reset_param[0] = 0, 0, 0, 0b10000000;
     spi_driver_cs_high_Expect();
     reset(reset_param);
 
-    set_register(MCP_CNF1, MCP_16MHz_5kBPS_CFG1);
-    set_register(MCP_CNF2, MCP_16MHz_5kBPS_CFG2);
-    set_register(MCP_CNF3, MCP_16MHz_5kBPS_CFG3);
+    set_register(MCP_CNF1, MCP_16MHz_1000kBPS_CFG1);
+    set_register(MCP_CNF2, MCP_16MHz_1000kBPS_CFG2);
+    set_register(MCP_CNF3, MCP_16MHz_1000kBPS_CFG3);
 
     init_rx1();
 
     set_register_bit(MCP_CANINTE, 0);
 
-    change_mode_expect();
+    change_5mode_expect();
     read_mode_expect(0b10000000);
 
    bool success = mcp2515_init();
