@@ -32,6 +32,10 @@ static bool is_can_speed_within_bounds(uint8_t value)
     return true;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// Changing and reading internal registers
+//
+
 static void set_register(uint8_t address, uint8_t value)
 {
     cs_low();
@@ -55,6 +59,16 @@ static uint8_t read_register(uint8_t address)
     uint8_t value = spi_driver_exchange(0);
     cs_high();
     return value;
+}
+
+static void bit_modify_register(uint8_t address, uint8_t mask, uint8_t data)
+{
+    cs_low();
+    spi_driver_exchange(MCP_BIT_MODIFY);
+    spi_driver_exchange(address);
+    spi_driver_exchange(mask);
+    spi_driver_exchange(0);
+    cs_high();
 }
 
 static inline bool check_bit(uint8_t value, uint8_t bit)
@@ -368,16 +382,20 @@ void mcp2515_driver_read_can_message(uint8_t * id, uint8_t * len,
     cs_high();
 }
 
-// TODO Implement a read_status function
-void mcp2515_driver_clear_rx0if(void)
+bool mcp2515_driver_clear_rx0if(void)
 {
-    uint8_t status = read_status();
+    bit_modify_register(MCP_CANINTF, 0b00000001, 0x00);
 
-    status = clear_bit(status, 0);
-    set_register(MCP_CANINTF, status);
+    uint8_t status = read_status();
+    if (true == check_bit(status, 0))
+    {
+        return false;
+    }
+
+    return true;
 }
 
-
+// TODO Implement bit_modify_register in the functions below
 bool mcp2515_set_rx0ie(void)
 {
     return set_register_bit(MCP_CANINTE, 0);   
