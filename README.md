@@ -8,6 +8,12 @@ Module to initialize and drive the mcp2551 CANbus controller.
 
 ## Installation
 
+The device needs to be initialised over SPI before it can be used. The initialising will restart the IC and place in into normal mode.
+
+Init will also set up any interrupts.
+
+NOTE There currently isn't a way to change the settings once the device is in normal mode. This is because the library can't change the mode (will be added at a later point).
+
 ## Usage
 
 ## History
@@ -26,3 +32,10 @@ Module to initialize and drive the mcp2551 CANbus controller.
 * Receiving of messages is now set up and is working correctly.
   * Only buffer is set up to be working.
   * Only standard messages are working. It is unknown what will happen if an ext message is sent to a bus that one of these nodes are connected to.
+
+### 4th September 2019
+
+* Interrupt pin is set up and working.
+    * Currently only working to interrupt when rx0 buffer is full.
+    * This helps remove the need for polling over SPI to see if the buffer is full.
+* Interrupt pin is set up during init, so it will be working from then on.
