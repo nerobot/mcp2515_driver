@@ -19,6 +19,7 @@
 #define MCP_WRITE               0b00000010
 #define MCP_READ_STATUS         0b10100000
 #define MCP_READ_BUF_RX0        0b10010000      // Note, this value is incorrect in the datasheet
+#define MCP_BIT_MODIFY          0b00000101
 
 #define MCP_CANSTAT 0x0E
 #define MCP_CANCTRL 0x0F
