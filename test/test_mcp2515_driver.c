@@ -20,7 +20,14 @@
 // Transmitting
 //
 //
-// Receiving
+// # Receiving
+//
+// ## Clearing rx0if
+//  * -- INCORRECT Read, change, and then check the register
+//  * send mask instruction, send address, send mask byte, send data all 0s. read status, check bit is cleared
+//      * if check correct, return true
+//      * if check incorrect, return false
+//
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -43,6 +50,34 @@ uint8_t tx_buf[8]      = {1, 2, 3, 4, 5, 6, 7, 8};
 // Locally used static functions
 ///////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////////////////////
+// Setting and reading registers
+//
+/*    bit_modify_register(MCP_BIT_MODIFY, MCP_CANINTF, 0x01, 0x00);
+    spi_driver_cs_low_Expect();
+    // send mask instruction
+    spi_driver_exchange_ExpectAndReturn(MCP_BIT_MODIFY, 0);
+    // send address
+    spi_driver_exchange_ExpectAndReturn(MCP_CANINTF, 0);
+    // send mask byte
+    spi_driver_exchange_ExpectAndReturn(0b00000001, 0);
+    // send data
+    spi_driver_exchange_ExpectAndReturn(0x00, 0);
+    spi_driver_cs_high_Expect();
+*/
+static void bit_modify_register(uint8_t address, uint8_t mask, uint8_t data)
+{
+    spi_driver_cs_low_Expect();
+    // send mask instruction
+    spi_driver_exchange_ExpectAndReturn(MCP_BIT_MODIFY, 0);
+    // send address
+    spi_driver_exchange_ExpectAndReturn(MCP_CANINTF, 0);
+    // send mask byte
+    spi_driver_exchange_ExpectAndReturn(0b00000001, 0);
+    // send data
+    spi_driver_exchange_ExpectAndReturn(0x00, 0);
+    spi_driver_cs_high_Expect();
+}
 static void read_register(uint8_t address, uint8_t expected)
 {
     spi_driver_cs_low_Expect();
@@ -538,27 +573,37 @@ void test_rx0_read_can_buffer_is_read_correctly(void)
     TEST_ASSERT_EQUAL_HEX8_ARRAY(read_buf1, read_buf2, 8);
 }
 
+// ## Clearing rx0if
+// * -- INCORRECT Read, change, and then check the register
+//  * send mask instruction, send address, send mask byte, send all 0s. read status, check bit is cleared
+//      * if check correct, return true
+//      * if check incorrect, return false
+
 void test_clear_rx0if_will_read_byte_and_only_clear_the_required_bit(void)
 {
-    spi_driver_cs_low_Expect();
-    spi_driver_exchange_ExpectAndReturn(MCP_READ_STATUS, 0);
-    spi_driver_exchange_ExpectAndReturn(0, 0xFF);
-    spi_driver_cs_high_Expect();
-
-    set_register(MCP_CANINTF, 0b11111110);
-
-    mcp2515_driver_clear_rx0if();
-}
-
-void test_clear_rx0if_will_read_byte_and_only_clear_the_required_bit2(void)
-{
+    bit_modify_register(MCP_CANINTF, 0x01, 0x00);
+    // check the current state of rx0if bit
     spi_driver_cs_low_Expect();
     spi_driver_exchange_ExpectAndReturn(MCP_READ_STATUS, 0);
     spi_driver_exchange_ExpectAndReturn(0, 0x00);
     spi_driver_cs_high_Expect();
 
-    set_register(MCP_CANINTF, 0x00);
+    bool success = mcp2515_driver_clear_rx0if();
+    TEST_ASSERT(success);
 
-    mcp2515_driver_clear_rx0if();
 }
+
+void test_clear_rx0if_if_status_bit_not_changed_return_false(void)
+{
+    bit_modify_register(MCP_CANINTF, 0x01, 0x00);
+    // check the current state of rx0if bit
+    spi_driver_cs_low_Expect();
+    spi_driver_exchange_ExpectAndReturn(MCP_READ_STATUS, 0);
+    spi_driver_exchange_ExpectAndReturn(0, 0x01);
+    spi_driver_cs_high_Expect();
+
+    bool success = mcp2515_driver_clear_rx0if();
+    TEST_ASSERT_FALSE(success);
+}
+
 
