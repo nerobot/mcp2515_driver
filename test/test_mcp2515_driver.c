@@ -53,18 +53,7 @@ uint8_t tx_buf[8]      = {1, 2, 3, 4, 5, 6, 7, 8};
 ///////////////////////////////////////////////////////////////////////////////
 // Setting and reading registers
 //
-/*    bit_modify_register(MCP_BIT_MODIFY, MCP_CANINTF, 0x01, 0x00);
-    spi_driver_cs_low_Expect();
-    // send mask instruction
-    spi_driver_exchange_ExpectAndReturn(MCP_BIT_MODIFY, 0);
-    // send address
-    spi_driver_exchange_ExpectAndReturn(MCP_CANINTF, 0);
-    // send mask byte
-    spi_driver_exchange_ExpectAndReturn(0b00000001, 0);
-    // send data
-    spi_driver_exchange_ExpectAndReturn(0x00, 0);
-    spi_driver_cs_high_Expect();
-*/
+
 static void bit_modify_register(uint8_t address, uint8_t mask, uint8_t data)
 {
     spi_driver_cs_low_Expect();
@@ -229,7 +218,7 @@ void test_init(void)
 
 ///////////////////////////////////////////////////////////////////////////////
 // Initialising functions
-///////////////////////////////////////////////////////////////////////////////
+//
 
 void test_reset_all_ok(void)
 {
@@ -281,7 +270,7 @@ reset_param[0] = 0, 0, 0, 0b10000000;
 
     set_register_bit(MCP_CANINTE, 0);
 
-    change_5mode_expect();
+    change_mode_expect();
     read_mode_expect(0b10000000);
 
    bool success = mcp2515_init();
@@ -337,7 +326,7 @@ void test_init_can_buffers_will_zero_to_all_txctrl_regs(void)
 
 ///////////////////////////////////////////////////////////////////////////////
 // Parameter Changing
-///////////////////////////////////////////////////////////////////////////////
+//
 
 void test_enable_rx0ie_sets_reads_and_returns_true_when_bit_changed(void)
 {
@@ -379,7 +368,7 @@ void test_set_B0BFE_will_read_then_set_then_read_BFPCTRL(void)
 
 ///////////////////////////////////////////////////////////////////////////////
 // Transmission
-///////////////////////////////////////////////////////////////////////////////
+//
 
 void test_tx1_si_all_ok(void)
 {
@@ -516,8 +505,7 @@ void test_tx_send_message_size_is_greater_than_8(void)
 
 ///////////////////////////////////////////////////////////////////////////////
 // Receiving messages
-///////////////////////////////////////////////////////////////////////////////
-
+//
 void test_rx0_is_full_returns_true_when_rx0IF_is_set(void)
 {
     mcp2515_rx0_is_full_expect(0b00000001);
