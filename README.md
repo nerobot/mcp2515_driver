@@ -12,7 +12,7 @@ The device needs to be initialised over SPI before it can be used. The initialis
 
 Init will also set up any interrupts.
 
-NOTE There currently isn't a way to change the settings once the device is in normal mode. This is because the library can't change the mode (will be added at a later point).
+NOTE There currently isn't a way to change the settings once the device is in normal mode. This is because the library can't change the mode (will be added at a later point).1
 
 ## Usage
 
