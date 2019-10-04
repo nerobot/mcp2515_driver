@@ -148,7 +148,7 @@ bool mcp2515_init(void)
     {
         return false;
     }
-    mcp2515_driver_set_baudrate(CAN_5KBPS, MCP_16MHZ);
+    mcp2515_driver_set_baudrate(CAN_1000KBPS, MCP_16MHZ);
 
     // Set up rx buffers
     init_rx_buffers();
