@@ -562,11 +562,10 @@ void test_rx0_read_can_buffer_is_read_correctly(void)
 }
 
 // ## Clearing rx0if
-// * -- INCORRECT Read, change, and then check the register
 //  * send mask instruction, send address, send mask byte, send all 0s. read status, check bit is cleared
 //      * if check correct, return true
 //      * if check incorrect, return false
-
+// TODO It might be worth looking into wheather it's worth checking the status before, but it might not be worth the overhead.
 void test_clear_rx0if_will_read_byte_and_only_clear_the_required_bit(void)
 {
     bit_modify_register(MCP_CANINTF, 0x01, 0x00);
