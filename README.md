@@ -57,3 +57,7 @@ ceedling
     * Only rx0 buffer full is set up to work
     * Only INT pin is set up as an interrupt output. The others will be set up, but in the near future.
 
+### 9th October 2019
+
+* Started new branch for adding rx0bf interrupt
+    * 

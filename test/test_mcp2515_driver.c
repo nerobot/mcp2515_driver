@@ -14,7 +14,9 @@
 // Initialising
 //
 //
-//  Parameter changes
+// # Parameter changes
+//
+// ## Setting up rx0bf interrupt
 //
 // Transmitting
 //
@@ -22,7 +24,6 @@
 // # Receiving
 //
 // ## Clearing rx0if
-//  * -- INCORRECT Read, change, and then check the register
 //  * send mask instruction, send address, send mask byte, send data all 0s. read status, check bit is cleared
 //      * if check correct, return true
 //      * if check incorrect, return false
