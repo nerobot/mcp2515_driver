@@ -346,7 +346,7 @@ bool mcp2515_rx0_is_full(void)
 
 // TODO Remove all the direct spi calls so that they are kept in the same place
 // It might be better to leave here and just try and improve the efficiency instead
-void mcp2515_driver_read_can_message(uint8_t * id, uint8_t * len,
+void mcp2515_driver_read_can_message(uint16_t * id, uint8_t * len,
                                      uint8_t * read_buf)
 {
     uint8_t buf[14];

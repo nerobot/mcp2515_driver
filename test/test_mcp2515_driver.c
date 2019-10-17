@@ -523,7 +523,7 @@ void test_rx0_is_full_returns_false_when_rx0IF_is_clear(void)
 
 void test_rx0_read_can_buffer_id_is_read_correctly(void)
 {
-    uint8_t id          = 0;
+    uint16_t id          = 0;
     uint8_t len         = 0;
     uint8_t read_buf[8] = {0, 0, 0, 0, 0, 0, 0, 0};
     uint8_t p_id[]      = {0xFF, 0xE0, 0, 0};
@@ -536,7 +536,7 @@ void test_rx0_read_can_buffer_id_is_read_correctly(void)
 
 void test_rx0_read_can_buffer_length_is_read_correctly(void)
 {
-    uint8_t id          = 0;
+    uint16_t id          = 0;
     uint8_t len         = 0;
     uint8_t read_buf[8] = {0, 0, 0, 0, 0, 0, 0, 0};
     uint8_t p_id[]      = {0xFF, 0xE0, 0, 0};
@@ -549,7 +549,7 @@ void test_rx0_read_can_buffer_length_is_read_correctly(void)
 
 void test_rx0_read_can_buffer_is_read_correctly(void)
 {
-    uint8_t id           = 0;
+    uint16_t id           = 0;
     uint8_t len          = 0;
     uint8_t read_buf1[8] = {1, 2, 3, 4, 5, 6, 7, 8};
     uint8_t read_buf2[8] = {0, 0, 0, 0, 0, 0, 0, 0};
