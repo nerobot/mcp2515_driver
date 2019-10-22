@@ -11,12 +11,27 @@
 // -------------
 //
 //
-// Initialising
+//  # Initialising
 //
+// 
 //
 // # Parameter changes
 //
 // ## Setting up rx0bf interrupt
+//
+//  ## Setting the current mode
+//  * Bit modify canctrl.reqop to mode specified.
+//      * return true if all ok                                                 - done
+//  * return false if mode is out of bounds                                     - done
+//
+//  ## Changing baudrate
+//  * Change br all ok
+//      * Change mode to config, send 3xbaudrate commands, change mode to normal
+//          * Check mode at end
+//      * if all ok, return true
+//  * if baudrate out of bounds, return false
+//  * 
+//
 //
 // Transmitting
 //
@@ -60,11 +75,11 @@ static void bit_modify_register(uint8_t address, uint8_t mask, uint8_t data)
     // send mask instruction
     spi_driver_exchange_ExpectAndReturn(MCP_BIT_MODIFY, 0);
     // send address
-    spi_driver_exchange_ExpectAndReturn(MCP_CANINTF, 0);
+    spi_driver_exchange_ExpectAndReturn(address, 0);
     // send mask byte
-    spi_driver_exchange_ExpectAndReturn(0b00000001, 0);
+    spi_driver_exchange_ExpectAndReturn(mask, 0);
     // send data
-    spi_driver_exchange_ExpectAndReturn(0x00, 0);
+    spi_driver_exchange_ExpectAndReturn(data, 0);
     spi_driver_cs_high_Expect();
 }
 static void read_register(uint8_t address, uint8_t expected)
@@ -325,7 +340,7 @@ void test_init_can_buffers_will_zero_to_all_txctrl_regs(void)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Parameter Changing
+//  # Parameter Changing
 //
 
 void test_enable_rx0ie_sets_reads_and_returns_true_when_bit_changed(void)
@@ -366,6 +381,34 @@ void test_set_B0BFE_will_read_then_set_then_read_BFPCTRL(void)
     mcp2515_driver_set_b0bfe();
 }
 
+///////////////////////////////////////////////////////////////////////////////
+//  ## Changing mode
+//
+
+void test_change_mode_all_ok(void)
+{
+    bit_modify_register(MCP_CANCTRL, 0b11100000, 0b10000000);
+    mcp2515_driver_set_mode(config);
+}
+
+void test_change_mode_all_ok_2(void)
+{
+    bit_modify_register(MCP_CANCTRL, 0b11100000, 0b01100000);
+    mcp2515_driver_set_mode(listen);
+}
+
+void test_change_mode_all_ok_returns_true(void)
+{
+    bit_modify_register(MCP_CANCTRL, 0b11100000, 0b01100000);
+    bool success = mcp2515_driver_set_mode(listen);
+    TEST_ASSERT(success);
+}
+
+void test_change_mode_out_of_bounds_returns_false(void)
+{
+    bool success = mcp2515_driver_set_mode(mcp2515_mode_max+1);
+    TEST_ASSERT_FALSE(success);
+}
 ///////////////////////////////////////////////////////////////////////////////
 // Transmission
 //

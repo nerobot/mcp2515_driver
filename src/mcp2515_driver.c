@@ -67,7 +67,7 @@ static void bit_modify_register(uint8_t address, uint8_t mask, uint8_t data)
     spi_driver_exchange(MCP_BIT_MODIFY);
     spi_driver_exchange(address);
     spi_driver_exchange(mask);
-    spi_driver_exchange(0);
+    spi_driver_exchange(data);
     cs_high();
 }
 
@@ -411,3 +411,13 @@ bool mcp2515_driver_set_b0bfe(void)
     return set_register_bit(MCP_BFPCTRL, 2);   
 }
 
+//static void bit_modify_register(uint8_t address, uint8_t mask, uint8_t data)
+bool mcp2515_driver_set_mode(mcp2515_mode_t mode)
+{
+    if (mode >= mcp2515_mode_max)
+    {
+        return false;
+    }
+    bit_modify_register(MCP_CANCTRL, 0b11100000, ((uint8_t)mode << 5));
+    return true;
+}

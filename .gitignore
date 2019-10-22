@@ -1,6 +1,5 @@
 build/test/*
 build/artifacts/*
-.vscode/*
 src/.*
 src/*~
 test/.*

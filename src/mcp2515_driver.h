@@ -19,6 +19,22 @@
 #include "spi_driver.h"
 #include "mcp2515_reg.h"
 
+typedef enum
+{
+    normal = 0,
+    sleep = 1,
+    loopback = 2,
+    listen = 3,
+    config = 4,
+    mcp2515_mode_max
+} mcp2515_mode_t;
+
+/**
+ * @brief   Changes the current working mode
+ * @return  true = all ok, false = mode not correct
+ */ 
+bool mcp2515_driver_set_mode(mcp2515_mode_t mode);
+
 /**
  *
  * @warning         SPI must be initialised before this funtion
