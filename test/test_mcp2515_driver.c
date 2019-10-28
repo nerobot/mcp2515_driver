@@ -27,9 +27,9 @@
 //  ## Changing baudrate
 //  * Change br all ok
 //      * Change mode to config, send 3xbaudrate commands, change mode to normal
-//          * Check mode at end
-//      * if all ok, return true
-//  * if baudrate out of bounds, return false
+//          * Check mode at end                                                 - done
+//      * if all ok, return true                                                - done
+//  * if baudrate out of bounds, return false                                   - done
 //  * 
 //
 //
@@ -100,6 +100,20 @@ static bool reset(uint8_t param[])
     // TODO Remove the line below
  //   read_register(MCP_CANCTRL, 0b10000000);
 	
+    // Checking that the device is now in config mode
+    spi_driver_cs_low_Expect();
+    spi_driver_exchange_ExpectAndReturn(MCP_READ, param[1]);
+    spi_driver_exchange_ExpectAndReturn(MCP_CANSTAT, param[2]);
+    spi_driver_exchange_ExpectAndReturn(0, param[3]);
+    spi_driver_cs_high_Expect();
+}
+
+static bool reset_expect(uint8_t param[])
+{
+    spi_driver_cs_low_Expect();
+    spi_driver_exchange_ExpectAndReturn(MCP_RESET, param[0]);
+    spi_driver_cs_high_Expect();
+
     // Checking that the device is now in config mode
     spi_driver_cs_low_Expect();
     spi_driver_exchange_ExpectAndReturn(MCP_READ, param[1]);
@@ -179,13 +193,6 @@ static void mcp2515_read_rx_message_expected(uint8_t * p_id, uint8_t len,
     spi_driver_cs_high_Expect();
 }
 
-static void change_mode_expect(void)
-{
-	read_register(MCP_CANCTRL, 0b10000000);
-    set_register(MCP_CANCTRL, 0b00000000);
-
-}
-
 static void read_mode_expect(uint8_t value)
 {
 	read_register(MCP_CANSTAT, value);
@@ -199,9 +206,14 @@ static void set_register_bit(uint8_t address, uint8_t bit)
     read_register(address, 1 << bit);
 }
 
+static void change_mode_expect(mcp2515_mode_t mode) 
+{
+    bit_modify_register(MCP_CANCTRL, 0b11100000, ((uint8_t)mode << 5));
+}
+
 void setUp(void)
 {
-    reset_param[0] = 0, 0, 0, 0b10000000;
+    /*reset_param[0] = 0, 0, 0, 0b10000000;
     reset_param[1] = 0, 0, 0b10000000;
     reset_param[2] = 0, 0b10000000;
     reset_param[3] = 0b10000000;
@@ -209,6 +221,7 @@ void setUp(void)
     spi_driver_cs_high_Expect();
     reset(reset_param);
 
+    change_mode_expect(config);
     set_register(MCP_CNF1, MCP_16MHz_1000kBPS_CFG1);
     set_register(MCP_CNF2, MCP_16MHz_1000kBPS_CFG2);
     set_register(MCP_CNF3, MCP_16MHz_1000kBPS_CFG3);
@@ -217,10 +230,30 @@ void setUp(void)
 
     set_register_bit(MCP_CANINTE, 0);
 
-    change_mode_expect();
+    change_mode_expect(normal);
     read_mode_expect(0b00000000);
 
    mcp2515_init();
+   */
+    reset_param[0] = 0b10000000;
+    reset_param[1] = 0b10000000;
+    reset_param[2] = 0b10000000;
+    reset_param[3] = 0b10000000;
+
+    reset_expect(reset_param);
+
+    change_mode_expect(config);
+    set_register(MCP_CNF1, MCP_16MHz_1000kBPS_CFG1);
+    set_register(MCP_CNF2, MCP_16MHz_1000kBPS_CFG2);
+    set_register(MCP_CNF3, MCP_16MHz_1000kBPS_CFG3);
+    change_mode_expect(normal);
+
+    init_rx1();
+
+    set_register_bit(MCP_CANINTE, 0);
+
+
+    mcp2515_init();
 }
 
 void tearDown(void)
@@ -235,11 +268,11 @@ void test_init(void)
 // Initialising functions
 //
 
-void test_reset_all_ok(void)
+/*void test_reset_all_ok(void)
 {
-    reset(reset_param);
-    mcp2515_driver_reset();
-}
+    //reset(reset_param);
+    //mcp2515_driver_reset();
+}*/
 
 void test_reset_all_ok_return_true(void)
 {
@@ -259,67 +292,38 @@ void test_after_reset_device_not_in_config_mode_return_false(void)
 void test_init_will_return_false_if_reset_fails(void)
 {
     reset_param[3] = 0;
-    spi_driver_cs_high_Expect();
-
     reset(reset_param);
 
     bool success = mcp2515_init();
     TEST_ASSERT_FALSE(success);
 }
 
-void test_init_will_return_false_if_it_does_not_finish_in_normal_mode(void)
-{
-reset_param[0] = 0, 0, 0, 0b10000000;
-    reset_param[1] = 0, 0, 0b10000000;
-    reset_param[2] = 0, 0b10000000;
-    reset_param[3] = 0b10000000;
+//void test_init_will_return_false_if_it_does_not_finish_in_normal_mode(void)
+//{
+//reset_param[0] = 0, 0, 0, 0b10000000;
+//    reset_param[1] = 0, 0, 0b10000000;
+//    reset_param[2] = 0, 0b10000000;
+//    reset_param[3] = 0b10000000;
+//
+//    spi_driver_cs_high_Expect();
+//    reset(reset_param);
+//
+//    set_register(MCP_CNF1, MCP_16MHz_1000kBPS_CFG1);
+//    set_register(MCP_CNF2, MCP_16MHz_1000kBPS_CFG2);
+//    set_register(MCP_CNF3, MCP_16MHz_1000kBPS_CFG3);
+//
+//    init_rx1();
+//
+//    set_register_bit(MCP_CANINTE, 0);
+//
+//    change_mode_expect(normal);
+//    read_mode_expect(0b10000000);
+//
+//   bool success = mcp2515_init();
+//
+// TEST_ASSERT_FALSE(success);
+//}
 
-    spi_driver_cs_high_Expect();
-    reset(reset_param);
-
-    set_register(MCP_CNF1, MCP_16MHz_1000kBPS_CFG1);
-    set_register(MCP_CNF2, MCP_16MHz_1000kBPS_CFG2);
-    set_register(MCP_CNF3, MCP_16MHz_1000kBPS_CFG3);
-
-    init_rx1();
-
-    set_register_bit(MCP_CANINTE, 0);
-
-    change_mode_expect();
-    read_mode_expect(0b10000000);
-
-   bool success = mcp2515_init();
-
- TEST_ASSERT_FALSE(success);
-}
-
-void test_set_baudrate_can_clock_out_off_bounds_return_false(void)
-{
-    bool success = true;
-    success      = mcp2515_driver_set_baudrate(can_speed, 3);
-    TEST_ASSERT_FALSE(success);
-}
-
-void test_set_baudrate_can_speed_out_off_bounds_return_false(void)
-{
-    bool success = true;
-    success      = mcp2515_driver_set_baudrate(19, can_clock);
-    TEST_ASSERT_FALSE(success);
-}
-
-void test_set_baudrate_5kbps_16mhz(void)
-{
-    bool success = false;
-    can_speed    = CAN_5KBPS;
-    can_clock    = MCP_16MHZ;
-
-    set_register(MCP_CNF1, MCP_16MHz_5kBPS_CFG1);
-    set_register(MCP_CNF2, MCP_16MHz_5kBPS_CFG2);
-    set_register(MCP_CNF3, MCP_16MHz_5kBPS_CFG3);
-
-    success = mcp2515_driver_set_baudrate(can_speed, can_clock);
-    TEST_ASSERT(success);
-}
 
 void test_init_can_buffers_will_zero_to_all_txctrl_regs(void)
 {
@@ -409,6 +413,36 @@ void test_change_mode_out_of_bounds_returns_false(void)
     bool success = mcp2515_driver_set_mode(mcp2515_mode_max+1);
     TEST_ASSERT_FALSE(success);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// Change baudrate
+//
+
+void test_set_baudrate_5kbps_16mhz(void)
+{
+    bool success = false;
+    can_speed    = CAN_5KBPS;
+
+    change_mode_expect(config);
+
+    set_register(MCP_CNF1, MCP_16MHz_5kBPS_CFG1);
+    set_register(MCP_CNF2, MCP_16MHz_5kBPS_CFG2);
+    set_register(MCP_CNF3, MCP_16MHz_5kBPS_CFG3);
+
+    change_mode_expect(normal);
+
+    success = mcp2515_driver_set_baudrate(can_speed);
+    TEST_ASSERT(success);
+}
+
+void test_set_baudrate_can_speed_out_off_bounds_return_false(void)
+{
+    bool success = true;
+    success      = mcp2515_driver_set_baudrate(19);
+    TEST_ASSERT_FALSE(success);
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 // Transmission
 //

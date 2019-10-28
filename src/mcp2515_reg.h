@@ -39,6 +39,8 @@
 #define MCP_8MHZ 2
 
 // TODO Change names so that they start with MCP for consistancy
+// TODO These can be put into a single enum typedef variable and stored in
+// mcp2515_driver.h
 #define CAN_5KBPS 1
 #define CAN_10KBPS 2
 #define CAN_20KBPS 3

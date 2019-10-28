@@ -143,12 +143,15 @@ static bool set_register_bit(uint8_t address, uint8_t bit)
 
 bool mcp2515_init(void)
 {
-    cs_high();
+
+
+    //cs_high();
     if (false == mcp2515_driver_reset())
     {
         return false;
     }
-    mcp2515_driver_set_baudrate(CAN_1000KBPS, MCP_16MHZ);
+
+    mcp2515_driver_set_baudrate(CAN_1000KBPS);
 
     // Set up rx buffers
     init_rx_buffers();
@@ -156,16 +159,18 @@ bool mcp2515_init(void)
     // Setting up the rx0 interrupt
     mcp2515_set_rx0ie();
 
+    return true;
+
     // TODO Add function to clear all current interrupts incase any happened during set up
 
     // Set into normal mode
     // TODO: Add funtionality to check if the device went into the correct mode
-   change_mode(0);
-   if (0 != read_mode())
-   {
-	return false;
-   }
-   return true;
+//   change_mode(0);
+//   if (0 != read_mode())
+//   {
+//	return false;
+//   }
+//   return true;
 }
 
 bool mcp2515_driver_reset(void)
@@ -193,23 +198,18 @@ bool mcp2515_driver_reset(void)
 
 // TODO: Implement all combinations of speeds
 // TODO: Double check the calculations for the speed macros
-bool mcp2515_driver_set_baudrate(uint8_t can_speed, uint8_t can_clock)
+bool mcp2515_driver_set_baudrate(uint8_t can_speed)
 {
-    if (false == is_can_clock_within_bounds(can_clock))
-    {
-        return false;
-    }
     if (false == is_can_speed_within_bounds(can_speed))
     {
         return false;
     }
 
+    mcp2515_driver_set_mode(config);
+    
     uint8_t cfg1, cfg2, cfg3;
     bool set = true;
 
-    switch (can_clock)
-    {
-    case MCP_16MHZ:
         switch (can_speed)
         {
         case CAN_5KBPS:
@@ -228,12 +228,6 @@ bool mcp2515_driver_set_baudrate(uint8_t can_speed, uint8_t can_clock)
             set = false;
             break;
         }
-        break;
-
-    default:
-        set = false;
-        break;
-    }
 
     if (true == set)
     {
@@ -242,7 +236,9 @@ bool mcp2515_driver_set_baudrate(uint8_t can_speed, uint8_t can_clock)
         set_register(MCP_CNF3, cfg3);
     }
 
+    mcp2515_driver_set_mode(normal);
     return true;
+    
 }
 
 // TODO: Implement rx buffers??

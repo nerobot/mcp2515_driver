@@ -26,7 +26,7 @@ typedef enum
     loopback = 2,
     listen = 3,
     config = 4,
-    mcp2515_mode_max
+    mcp2515_mode_max = 5
 } mcp2515_mode_t;
 
 /**
@@ -55,13 +55,12 @@ bool mcp2515_driver_reset(void);
  * @brief               Sets up the baudrate given a rate and clock speed
  *
  * @param can_speed     Macro defined baudrate
- * @param can_clock     Clock speed of the module
  * @return true
  * @return false        Incorrect speed or rate requested
  *
  * @warning             Not all speeds are implemented
  */
-bool mcp2515_driver_set_baudrate(uint8_t can_speed, uint8_t can_clock);
+bool mcp2515_driver_set_baudrate(uint8_t can_speed);
 
 /**
  * @brief               Will initialise all of the can buffers to zero.
