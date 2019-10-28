@@ -39,7 +39,7 @@ bool mcp2515_driver_set_mode(mcp2515_mode_t mode);
  *
  * @warning         SPI must be initialised before this funtion
  */
-bool mcp2515_init(void);
+bool mcp2515_init(uint8_t baudrate);
 
 /**
  * @brief           Causes a reset via SPI command.

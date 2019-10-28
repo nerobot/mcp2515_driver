@@ -141,17 +141,21 @@ static bool set_register_bit(uint8_t address, uint8_t bit)
     return true; 
 }
 
-bool mcp2515_init(void)
+bool mcp2515_init(uint8_t baudrate)
 {
 
 
     //cs_high();
+    if (false == is_can_speed_within_bounds(baudrate)) 
+    {
+        return false;
+    }
     if (false == mcp2515_driver_reset())
     {
         return false;
     }
 
-    mcp2515_driver_set_baudrate(CAN_1000KBPS);
+    mcp2515_driver_set_baudrate(baudrate);
 
     // Set up rx buffers
     init_rx_buffers();

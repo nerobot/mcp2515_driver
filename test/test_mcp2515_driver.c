@@ -13,7 +13,7 @@
 //
 //  # Initialising
 //
-// 
+//  * Baudrate is set in init.
 //
 // # Parameter changes
 //
@@ -233,7 +233,7 @@ void setUp(void)
     change_mode_expect(normal);
     read_mode_expect(0b00000000);
 
-   mcp2515_init();
+   mcp2515_init();;
    */
     reset_param[0] = 0b10000000;
     reset_param[1] = 0b10000000;
@@ -253,7 +253,7 @@ void setUp(void)
     set_register_bit(MCP_CANINTE, 0);
 
 
-    mcp2515_init();
+    mcp2515_init(CAN_1000KBPS);
 }
 
 void tearDown(void)
@@ -294,8 +294,15 @@ void test_init_will_return_false_if_reset_fails(void)
     reset_param[3] = 0;
     reset(reset_param);
 
-    bool success = mcp2515_init();
+    bool success = mcp2515_init(CAN_1000KBPS);
     TEST_ASSERT_FALSE(success);
+}
+
+void test_init_will_return_false_if_incorrect_baudrate(void)
+{
+    bool success = mcp2515_init(99);
+    TEST_ASSERT_FALSE(success);
+
 }
 
 //void test_init_will_return_false_if_it_does_not_finish_in_normal_mode(void)
