@@ -435,6 +435,23 @@ void test_set_baudrate_5kbps_16mhz(void)
     TEST_ASSERT(success);
 }
 
+void test_set_baudrate_1000kbps_16mhz(void)
+{
+    bool success = false;
+    can_speed    = CAN_1000KBPS;
+
+    change_mode_expect(config);
+
+    set_register(MCP_CNF1, MCP_16MHz_1000kBPS_CFG1);
+    set_register(MCP_CNF2, MCP_16MHz_1000kBPS_CFG2);
+    set_register(MCP_CNF3, MCP_16MHz_1000kBPS_CFG3);
+
+    change_mode_expect(normal);
+
+    success = mcp2515_driver_set_baudrate(can_speed);
+    TEST_ASSERT(success);
+}
+
 void test_set_baudrate_can_speed_out_off_bounds_return_false(void)
 {
     bool success = true;
