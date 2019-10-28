@@ -64,3 +64,11 @@ ceedling
 
 ### 21st October 2019
 
+### v0.1b - allowing baudrate change in init
+
+#### 28th October 2019
+
+##### Braking changes
+* init now contains a parameter for the baudrate to be used.
+    * If the baudrate is out of bounds, the function will stop and return false.
+
