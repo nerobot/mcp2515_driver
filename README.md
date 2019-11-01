@@ -68,7 +68,7 @@ ceedling
 
 #### 28th October 2019
 
-##### Braking changes
+##### Breaking changes
 * init now contains a parameter for the baudrate to be used.
     * If the baudrate is out of bounds, the function will stop and return false.
 
